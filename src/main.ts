@@ -1,39 +1,24 @@
 import './style/style.scss';
 
-// All kod härifrån och ner är bara ett exempel för att komma igång
+import generateGameboard from './gameboard';
 
-// I denna utils-fil har vi lagrat funktioner som ofta används, t.ex. en "blanda array"-funktion
-import { shuffle } from './utils';
+const boardContainer = document.querySelector('#boardContainer') as HTMLElement;
 
-// I denna fil har vi lagrat vår "data", i detta exempel en ofullständig kortlek
-import exampleCardDeck from './exampleArray';
+const board = generateGameboard(5, 5);
+let output = '';
 
-// Blanda kortleken
-const myShuffledCardDeck = shuffle(exampleCardDeck);
-
-/**
- * Vänder upp/ner på det klickade kortet genom att toggla en CSS-klass.
- * @param this - Det HTML-element som har klickats på
- * @return {void}
- */
-function flipCard(this: HTMLElement): void {
-  if (this !== undefined) {
-    this.classList.toggle('visible');
+for (let y = 0; y < board[0].length; y++) {
+  output += '<tr>';
+  for (let x = 0; x < board.length; x++) {
+    output += `<td> ${board[x][y].hasWumpus.toString()} </td>`;
   }
+  output += '</tr>';
 }
 
-// Printa kortleken
-let cardString = '';
-myShuffledCardDeck.forEach((card) => {
-  cardString += `
-    <button class="card">
-      <span class="front">♠</span>
-      <span class="back">${card}</span>
-    </button>`;
-});
+boardContainer.innerHTML = output;
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = cardString;
-
-document.querySelectorAll('.card').forEach((card) => {
-  card.addEventListener('click', flipCard);
-});
+/**
+ * Make grid
+ * Add wumpus
+ * Add holes
+ */
