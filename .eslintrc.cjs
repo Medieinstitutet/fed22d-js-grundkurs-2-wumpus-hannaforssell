@@ -32,5 +32,6 @@ module.exports = {
     'no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'no-unreachable': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'no-undef': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+    "linebreak-style": ["error", process.env.NODE_ENV === 'prod' ? "unix" : "windows"]
   }
 }
