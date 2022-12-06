@@ -1,8 +1,7 @@
-@use "utils/a11y"; // Om det inte funkar, byt @use mot @import
+@use "utils/a11y";
 @use "vendor/reset";
 
 :root {
-  // TODO: Går bra att radera kod även här!
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: rem(16px);
   line-height: 24px;
@@ -16,3 +15,15 @@
   -moz-osx-font-smoothing: grayscale;
   text-size-adjust: 100%;
 }
+
+.board-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 200px;
+
+  .board-square {
+    border: 1px solid lightgray;
+    padding: 30px;
+  }
+}
+

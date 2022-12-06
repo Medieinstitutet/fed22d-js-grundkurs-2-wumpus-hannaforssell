@@ -10,7 +10,11 @@ let output = '';
 for (let y = 0; y < board[0].length; y++) {
   output += '<tr>';
   for (let x = 0; x < board.length; x++) {
-    output += `<td> ${board[x][y].hasWumpus.toString()} </td>`;
+    if (board[x][y].hasWumpus) {
+      output += '<td class="board-square"><img src="public/wumpus.png"></td>';
+    } else {
+      output += '<td class="board-square"></td>';
+    }
   }
   output += '</tr>';
 }
@@ -18,7 +22,5 @@ for (let y = 0; y < board[0].length; y++) {
 boardContainer.innerHTML = output;
 
 /**
- * Make grid
- * Add wumpus
  * Add holes
  */
