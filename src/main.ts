@@ -5,52 +5,21 @@
 import './style/style.scss';
 
 import Game from './gameboard';
+import Renderer from './renderer';
 
 // *********************************************************
 // ---------------- Creating the gameboard -----------------
 // *********************************************************
 
+const renderer = new Renderer('#boardContainer', '#arrows', '#moves');
+
 const game = new Game();
 
-const boardContainer = document.querySelector('#boardContainer') as HTMLElement;
-const arrows = document.querySelector('#arrows') as HTMLElement;
-const moves = document.querySelector('#moves') as HTMLElement;
+renderer.renderAll(game);
 
-arrows.innerHTML = game.arrowCount.toString();
-moves.innerHTML = game.moveCount.toString();
+setTimeout(() => renderer.renderAll(game), 3000);
 
-console.log(game.playerPosition());
-game.movePlayer('North');
-game.movePlayer('North');
-game.movePlayer('West');
-console.log(game.playerPosition());
-
-console.log(game.moveWumpus());
-
-let output = '';
-
-for (let y = 0; y < game.board[0].length; y++) {
-  output += '<tr>';
-
-  for (let x = 0; x < game.board.length; x++) {
-    if (game.playerX === x && game.playerY === y) {
-      output += `<td class="board-square"> ${game.board[x][y].id} <img src="/player.jpg" width="50"></td>`;
-    } else if (game.board[x][y].hasWumpus) {
-      output += `<td class="board-square"> ${game.board[x][y].id} <img src="/wumpus.png" width="50"></td>`;
-    } else if (game.board[x][y].hasHole) {
-      output += `<td class="board-square"> ${game.board[x][y].id} <img src="/hole.jpg" width="50"></td>`;
-    } else if (game.board[x][y].hasBat) {
-      output += `<td class="board-square"> ${game.board[x][y].id} <img src="/bats.jpg" width="50"></td>`;
-    } else {
-      output += `<td class="board-square"> ${game.board[x][y].id} </td>`;
-    }
-  }
-  output += '</tr>';
-}
-
-console.log(game.board);
-
-boardContainer.innerHTML = output;
+game.movePlayer('East');
 
 // *********************************************************
 // -------------------------- Notes ------------------------
@@ -83,7 +52,9 @@ boardContainer.innerHTML = output;
 
 /**
  * TODO
+ * Random placement for player
+ * Land solo (no dangers)
+ * listAdjacentRooms (close to the player) (ex: 1,7,11,10)
  * --
- * A sidebox that contains player info
  * A input box
  */

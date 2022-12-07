@@ -64,8 +64,8 @@ class Game {
     this.arrowCount = 5;
     this.moveCount = 0;
     this.board = generateGameboard(5, 4);
-    this.playerX = 2;
-    this.playerY = 3;
+    this.playerX = 4;
+    this.playerY = 1;
   }
 
   playerPosition() {
@@ -75,17 +75,37 @@ class Game {
   }
 
   movePlayer(direction: string) {
+    console.log('hej');
+    let newX = this.playerX;
+    let newY = this.playerY;
     if (direction === 'North') {
-      this.playerY -= 1;
+      newY -= 1;
     } else if (direction === 'East') {
-      this.playerX += 1;
+      newX += 1;
     } else if (direction === 'South') {
-      this.playerY += 1;
+      newY += 1;
     } else if (direction === 'West') {
-      this.playerX -= 1;
+      newX -= 1;
     } else {
       console.log('Choose either North, East, South or West.');
+      return;
     }
+
+    // Makes player loop across board edges
+    if (newX === this.board.length) {
+      newX = 0;
+    } else if (newX === -1) {
+      newX = this.board.length - 1;
+    }
+    if (newY === this.board[0].length) {
+      newY = 0;
+    } else if (newY === -1) {
+      newY = this.board[0].length - 1;
+    }
+    this.playerX = newX;
+    this.playerY = newY;
+
+    this.moveCount += 1;
   }
 
   wumpusPosition() {
