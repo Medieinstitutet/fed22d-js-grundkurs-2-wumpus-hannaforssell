@@ -5,16 +5,32 @@
     <link rel="icon" type="image/ico" href="/fed22d-js-grundkurs-2-wumpus-hannaforssell/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wumpus</title>
-    <script type="module" crossorigin src="/fed22d-js-grundkurs-2-wumpus-hannaforssell/assets/index.064f502e.js"></script>
-    <link rel="stylesheet" href="/fed22d-js-grundkurs-2-wumpus-hannaforssell/assets/index.7c9afcfd.css">
+    <script type="module" crossorigin src="/fed22d-js-grundkurs-2-wumpus-hannaforssell/assets/index.eb5a59de.js"></script>
+    <link rel="stylesheet" href="/fed22d-js-grundkurs-2-wumpus-hannaforssell/assets/index.0b63f997.css">
   </head>
   <body>
+
+    <header class="intro">
+      <h1>Hunt the Wumpus</h1>
+      <p>A text based adventure game. Play if you dare.</p>
+    </header>
+
     <main>
-      <div id="arrows"></div>
-      <table id="boardContainer" class="board-container"></table>
 
+      <section class="game-section">
+        <div class="player-info">
+          <h2>Player info:</h2>
+          <article>Arrows left:
+            <span id="arrows"></span>
+          </article>
+          <article>Moves:
+            <span id="moves"></span>
+          </article>
+        </div>
+        
+        <table id="boardContainer" class="board-container"></table>
+    </section>
     </main>
-
     
   </body>
 </html>
