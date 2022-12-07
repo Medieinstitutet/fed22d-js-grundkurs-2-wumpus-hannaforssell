@@ -16,14 +16,23 @@
   text-size-adjust: 100%;
 }
 
-.board-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 200px;
+.intro {
+  text-align: center;
+  margin-top: 50px;
+}
 
-  .board-square {
-    border: 1px solid lightgray;
-    padding: 20px;
+.game-section {
+  display: flex;
+  
+  .board-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+
+    .board-square {
+      border: 1px solid lightgray;
+      padding: 20px;
+    }
   }
 }
 

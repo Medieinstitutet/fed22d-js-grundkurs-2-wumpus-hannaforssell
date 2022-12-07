@@ -7,12 +7,28 @@
     <title>Wumpus</title>
   </head>
   <body>
+
+    <header class="intro">
+      <h1>Hunt the Wumpus</h1>
+      <p>A text based adventure game. Play if you dare.</p>
+    </header>
+
     <main>
-      <div id="arrows"></div>
-      <table id="boardContainer" class="board-container"></table>
 
+      <section class="game-section">
+        <div class="player-info">
+          <h2>Player info:</h2>
+          <article>Arrows left:
+            <span id="arrows"></span>
+          </article>
+          <article>Moves:
+            <span id="moves"></span>
+          </article>
+        </div>
+        
+        <table id="boardContainer" class="board-container"></table>
+    </section>
     </main>
-
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

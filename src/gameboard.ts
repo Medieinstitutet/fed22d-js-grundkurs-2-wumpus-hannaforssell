@@ -64,8 +64,60 @@ class Game {
     this.arrowCount = 5;
     this.moveCount = 0;
     this.board = generateGameboard(5, 4);
-    this.playerX = 3;
-    this.playerY = 2;
+    this.playerX = 2;
+    this.playerY = 3;
+  }
+
+  playerPosition() {
+    const xPos = this.playerX;
+    const yPos = this.playerY;
+    return [xPos, yPos];
+  }
+
+  movePlayer(direction: string) {
+    if (direction === 'North') {
+      this.playerY -= 1;
+    } else if (direction === 'East') {
+      this.playerX += 1;
+    } else if (direction === 'South') {
+      this.playerY += 1;
+    } else if (direction === 'West') {
+      this.playerX -= 1;
+    } else {
+      console.log('Choose either North, East, South or West.');
+    }
+  }
+
+  wumpusPosition() {
+    for (let y = 0; y < this.board[0].length; y++) {
+      for (let x = 0; x < this.board.length; x++) {
+        if (this.board[x][y].hasWumpus) {
+          // console.log(x);
+          // console.log(y);
+        }
+      }
+    }
+  }
+
+  moveWumpus() {
+    for (let y = 0; y < this.board[0].length; y++) {
+      for (let x = 0; x < this.board.length; x++) {
+        if (this.board[x][y].hasWumpus) {
+          let newX = x + 1;
+          let newY = y;
+          if (newX === this.board.length) {
+            newX = 0;
+          } else if (newY === this.board[0].length) {
+            newY = 0;
+          }
+          console.log(x);
+          console.log(y);
+          this.board[x][y].hasWumpus = false;
+          this.board[newX][newY].hasWumpus = true;
+          return;
+        }
+      }
+    }
   }
 }
 

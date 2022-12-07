@@ -10,19 +10,32 @@ import Game from './gameboard';
 // ---------------- Creating the gameboard -----------------
 // *********************************************************
 
-const boardContainer = document.querySelector('#boardContainer') as HTMLElement;
-const arrows = document.querySelector('#arrows') as HTMLElement;
-
 const game = new Game();
 
+const boardContainer = document.querySelector('#boardContainer') as HTMLElement;
+const arrows = document.querySelector('#arrows') as HTMLElement;
+const moves = document.querySelector('#moves') as HTMLElement;
+
 arrows.innerHTML = game.arrowCount.toString();
+moves.innerHTML = game.moveCount.toString();
+
+console.log(game.playerPosition());
+game.movePlayer('North');
+game.movePlayer('North');
+game.movePlayer('West');
+console.log(game.playerPosition());
+
+console.log(game.moveWumpus());
 
 let output = '';
 
 for (let y = 0; y < game.board[0].length; y++) {
   output += '<tr>';
+
   for (let x = 0; x < game.board.length; x++) {
-    if (game.board[x][y].hasWumpus) {
+    if (game.playerX === x && game.playerY === y) {
+      output += `<td class="board-square"> ${game.board[x][y].id} <img src="/player.jpg" width="50"></td>`;
+    } else if (game.board[x][y].hasWumpus) {
       output += `<td class="board-square"> ${game.board[x][y].id} <img src="/wumpus.png" width="50"></td>`;
     } else if (game.board[x][y].hasHole) {
       output += `<td class="board-square"> ${game.board[x][y].id} <img src="/hole.jpg" width="50"></td>`;
@@ -47,7 +60,7 @@ boardContainer.innerHTML = output;
  * RULES:
  * 20 rooms
  * Go north, east, south, west
- * (20% )When stepping on a hole, you fall and die
+ * (20%) When stepping on a hole, you fall and die
  * (30%) When meeting bats, they pick you up and fly with you to another room
  * When meeting Wumpus, you get eaten and die
  * --
@@ -70,5 +83,7 @@ boardContainer.innerHTML = output;
 
 /**
  * TODO
- * Put a player on playerX & playerY
+ * --
+ * A sidebox that contains player info
+ * A input box
  */
