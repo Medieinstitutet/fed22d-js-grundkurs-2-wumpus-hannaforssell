@@ -14,6 +14,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-size-adjust: 100%;
+  box-sizing: border-box;
 }
 
 .intro {
@@ -21,18 +22,31 @@
   margin-top: 50px;
 }
 
-.game-section {
+.board-container {
   display: flex;
-  
-  .board-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+  justify-content: center;
+  margin-top: 20px;
 
-    .board-square {
-      border: 1px solid lightgray;
-      padding: 20px;
-    }
+  .board-square {
+    border: 1px solid lightgray;
+    padding: 20px;
+  }
+}
+
+.input-parent {
+  display: flex;
+  justify-content: center;
+
+  .input-text {
+    background: #02402D;
+    background: radial-gradient(circle farthest-corner at center center, #02402D 0%, #011710 100%);
+    -moz-webkit-background-clip: text;
+    color: lightgrey;
+    resize: none;
+    outline: none;
+    width: 500px;
+    height: 300px;
+    padding: 10px;
   }
 }
 

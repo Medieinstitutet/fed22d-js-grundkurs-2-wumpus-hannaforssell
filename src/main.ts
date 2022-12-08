@@ -19,7 +19,7 @@ renderer.renderAll(game);
 
 setTimeout(() => renderer.renderAll(game), 3000);
 
-// game.movePlayer('East');
+game.movePlayer('East');
 
 console.log(game.playerX);
 console.log(game.playerY);
