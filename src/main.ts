@@ -4,7 +4,7 @@
 
 import './style/style.scss';
 
-import Game from './gameboard';
+import Game from './game';
 import Renderer from './renderer';
 
 // *********************************************************
@@ -15,12 +15,14 @@ const renderer = new Renderer('#boardContainer', '#arrows', '#moves');
 
 const game = new Game(5, 4, renderer);
 
-setTimeout(() => game.movePlayer('East'), 1000);
-setTimeout(() => game.movePlayer('East'), 2000);
-setTimeout(() => game.movePlayer('East'), 3000);
+// setTimeout(() => game.movePlayer('East'), 1000);
+// setTimeout(() => game.movePlayer('East'), 2000);
+// setTimeout(() => game.movePlayer('East'), 3000);
 
 // console.log(game.playerX);
 // console.log(game.playerY);
+
+console.log(game.adjacentRooms());
 
 console.log(game);
 
@@ -57,7 +59,6 @@ console.log(game);
  * TODO
  * Write a terminal in js
  * listAdjacentRooms (close to the player) (ex: 1,7,11,10)
- * Check that there is 2 free boards, for wumpus & player
  * --
  * A input box
  */

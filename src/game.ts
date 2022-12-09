@@ -72,12 +72,14 @@ class Game {
     // Makes player loop across board edges
     if (newX === this.board.length) {
       newX = 0;
-    } else if (newX === -1) {
+    }
+    if (newX === -1) {
       newX = this.board.length - 1;
     }
     if (newY === this.board[0].length) {
       newY = 0;
-    } else if (newY === -1) {
+    }
+    if (newY === -1) {
       newY = this.board[0].length - 1;
     }
     this.playerX = newX;
@@ -86,6 +88,34 @@ class Game {
     if (this.renderer != null) {
       this.renderer.renderAll(this.board, this.playerX, this.playerY, this.arrowCount, this.moveCount);
     }
+  }
+
+  // list adjacent rooms to player
+  adjacentRooms() {
+    let northY = this.playerY - 1;
+    let eastX = this.playerX + 1;
+    let southY = this.playerY + 1;
+    let westX = this.playerX - 1;
+
+    if (eastX === this.board.length) {
+      eastX = 0;
+    }
+    if (westX === -1) {
+      westX = this.board.length - 1;
+    }
+    if (southY === this.board[0].length) {
+      southY = 0;
+    }
+    if (northY === -1) {
+      northY = this.board[0].length - 1;
+    }
+
+    const northRoom = this.board[this.playerX][northY];
+    const eastRoom = this.board[eastX][this.playerY];
+    const southRoom = this.board[this.playerX][southY];
+    const westRoom = this.board[westX][this.playerY];
+
+    return [northRoom, eastRoom, southRoom, westRoom];
   }
 
   wumpusPosition() {
@@ -143,7 +173,6 @@ class Game {
       board.push(column);
     }
 
-    // check that there is 2 free boards, for wumpus & player
     if (Game.emptyRooms(board) < 2) {
       console.log('bad room, trying again!');
       this.generateGameboard(width, height);
