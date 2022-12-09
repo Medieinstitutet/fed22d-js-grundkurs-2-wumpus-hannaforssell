@@ -144,6 +144,32 @@ class Game {
     }
 
     // check that there is 2 free boards, for wumpus & player
+    if (Game.emptyRooms(board) < 2) {
+      console.log('bad room, trying again!');
+      this.generateGameboard(width, height);
+      return;
+    }
+
+    Game.randomizeWumpusPosition(board);
+
+    this.board = board;
+  }
+
+  private static randomizeWumpusPosition(board: Room[][]) {
+    while (true) {
+      const wumpusX = Math.round(Math.random() * (board.length - 1));
+      const wumpusY = Math.round(Math.random() * (board[0].length - 1));
+
+      const wumpusPlacement = board[wumpusX][wumpusY];
+
+      if (!wumpusPlacement.hasHole && !wumpusPlacement.hasBat) {
+        wumpusPlacement.hasWumpus = true;
+        break;
+      }
+    }
+  }
+
+  private static emptyRooms(board: Room[][]): number {
     let emptyRooms = 0;
     for (let y = 0; y < board[0].length; y++) {
       for (let x = 0; x < board.length; x++) {
@@ -153,26 +179,7 @@ class Game {
         }
       }
     }
-
-    if (emptyRooms < 2) {
-      console.log('bad room, trying again!');
-      this.generateGameboard(width, height);
-      return;
-    }
-
-    while (true) {
-      const wumpusX = Math.round(Math.random() * (width - 1));
-      const wumpusY = Math.round(Math.random() * (height - 1));
-
-      const wumpusPlacement = board[wumpusX][wumpusY];
-
-      if (!wumpusPlacement.hasHole && !wumpusPlacement.hasBat) {
-        wumpusPlacement.hasWumpus = true;
-        break;
-      }
-    }
-
-    this.board = board;
+    return emptyRooms;
   }
 }
 

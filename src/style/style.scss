@@ -33,20 +33,28 @@
   }
 }
 
-.input-parent {
+.terminal-parent {
   display: flex;
   justify-content: center;
 
-  .input-text {
+  .terminal {
+    position: relative;
+    width: 600px;
+    height: 300px;
+    margin: 10px;
     background: #02402D;
     background: radial-gradient(circle farthest-corner at center center, #02402D 0%, #011710 100%);
     -moz-webkit-background-clip: text;
     color: lightgrey;
-    resize: none;
-    outline: none;
-    width: 500px;
-    height: 300px;
-    padding: 10px;
+    border: 2px outset grey;
+
+    .user-input {
+      background-color: transparent;
+      // border: none;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
   }
 }
 
