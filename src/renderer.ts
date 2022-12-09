@@ -2,7 +2,8 @@
 // ------------------------ Imports ------------------------
 // *********************************************************
 
-import Game from './gameboard';
+// import Game from './gameboard';
+import Room from './room';
 
 // *********************************************************
 // --------------- Creating Renderer class -----------------
@@ -21,23 +22,23 @@ class Renderer {
     this.moveContainer = document.querySelector(moveContainerId) as HTMLElement;
   }
 
-  renderBoard(game: Game) {
+  renderBoard(gameboard: Room[][], playerX: number, playerY: number) {
     let output = '';
 
-    for (let y = 0; y < game.board[0].length; y++) {
+    for (let y = 0; y < gameboard[0].length; y++) {
       output += '<tr>';
 
-      for (let x = 0; x < game.board.length; x++) {
-        if (game.playerX === x && game.playerY === y) {
-          output += `<td class="board-square"> ${game.board[x][y].id} <img src="/player.jpg" width="50"></td>`;
-        } else if (game.board[x][y].hasWumpus) {
-          output += `<td class="board-square"> ${game.board[x][y].id} <img src="/wumpus.png" width="50"></td>`;
-        } else if (game.board[x][y].hasHole) {
-          output += `<td class="board-square"> ${game.board[x][y].id} <img src="/hole.jpg" width="50"></td>`;
-        } else if (game.board[x][y].hasBat) {
-          output += `<td class="board-square"> ${game.board[x][y].id} <img src="/bats.jpg" width="50"></td>`;
+      for (let x = 0; x < gameboard.length; x++) {
+        if (playerX === x && playerY === y) {
+          output += `<td class="board-square"> ${gameboard[x][y].id} <img src="/player.jpg" width="50"></td>`;
+        } else if (gameboard[x][y].hasWumpus) {
+          output += `<td class="board-square"> ${gameboard[x][y].id} <img src="/wumpus.png" width="50"></td>`;
+        } else if (gameboard[x][y].hasHole) {
+          output += `<td class="board-square"> ${gameboard[x][y].id} <img src="/hole.jpg" width="50"></td>`;
+        } else if (gameboard[x][y].hasBat) {
+          output += `<td class="board-square"> ${gameboard[x][y].id} <img src="/bats.jpg" width="50"></td>`;
         } else {
-          output += `<td class="board-square"> ${game.board[x][y].id} </td>`;
+          output += `<td class="board-square"> ${gameboard[x][y].id} </td>`;
         }
       }
       output += '</tr>';
@@ -45,18 +46,18 @@ class Renderer {
     this.boardContainer.innerHTML = output;
   }
 
-  renderArrows(game: Game) {
-    this.arrowContainer.innerHTML = game.arrowCount.toString();
+  renderArrows(arrowCount: number) {
+    this.arrowContainer.innerHTML = arrowCount.toString();
   }
 
-  renderMoves(game: Game) {
-    this.moveContainer.innerHTML = game.moveCount.toString();
+  renderMoves(moveCount: number) {
+    this.moveContainer.innerHTML = moveCount.toString();
   }
 
-  renderAll(game: Game) {
-    this.renderBoard(game);
-    this.renderArrows(game);
-    this.renderMoves(game);
+  renderAll(gameboard: Room[][], playerX: number, playerY:number, arrowCount: number, moveCount: number) {
+    this.renderBoard(gameboard, playerX, playerY);
+    this.renderArrows(arrowCount);
+    this.renderMoves(moveCount);
   }
 }
 

@@ -13,18 +13,16 @@ import Renderer from './renderer';
 
 const renderer = new Renderer('#boardContainer', '#arrows', '#moves');
 
-const game = new Game();
+const game = new Game(5, 4, renderer);
 
-renderer.renderAll(game);
-
-setTimeout(() => renderer.renderAll(game), 3000);
-
-// game.movePlayer('East');
+setTimeout(() => game.movePlayer('East'), 1000);
+setTimeout(() => game.movePlayer('East'), 2000);
+setTimeout(() => game.movePlayer('East'), 3000);
 
 // console.log(game.playerX);
 // console.log(game.playerY);
 
-console.log(game.board);
+console.log(game);
 
 // *********************************************************
 // -------------------------- Notes ------------------------
@@ -58,8 +56,8 @@ console.log(game.board);
 /**
  * TODO
  * Write a terminal in js
- * Player lands solo (no dangers)
  * listAdjacentRooms (close to the player) (ex: 1,7,11,10)
+ * Check that there is 2 free boards, for wumpus & player
  * --
  * A input box
  */
