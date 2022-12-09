@@ -19,10 +19,10 @@ renderer.renderAll(game);
 
 setTimeout(() => renderer.renderAll(game), 3000);
 
-game.movePlayer('East');
+// game.movePlayer('East');
 
-console.log(game.playerX);
-console.log(game.playerY);
+// console.log(game.playerX);
+// console.log(game.playerY);
 
 console.log(game.board);
 
@@ -57,6 +57,7 @@ console.log(game.board);
 
 /**
  * TODO
+ * Write a terminal in js
  * Player lands solo (no dangers)
  * listAdjacentRooms (close to the player) (ex: 1,7,11,10)
  * --

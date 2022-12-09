@@ -56,28 +56,28 @@ class Game {
 
   board: Room[][];
 
-  playerX: number;
+  playerX = 0;
 
-  playerY: number;
+  playerY = 0;
 
   constructor() {
     this.arrowCount = 5;
     this.moveCount = 0;
     this.board = generateGameboard(5, 4);
-    this.playerX = this.playerPositionX();
-    this.playerY = this.playerPositionY();
+    this.randomizePlayerPosition();
   }
 
-  playerPositionX() {
-    let xPos = this.playerX;
-    xPos = Math.round(Math.random() * (this.board.length - 1));
-    return xPos;
-  }
+  randomizePlayerPosition() {
+    while (true) {
+      this.playerX = Math.round(Math.random() * (this.board.length - 1));
+      this.playerY = Math.round(Math.random() * (this.board[0].length - 1));
 
-  playerPositionY() {
-    let yPos = this.playerY;
-    yPos = Math.round(Math.random() * (this.board[0].length - 1));
-    return yPos;
+      const playerPlacement = this.board[this.playerX][this.playerY];
+
+      if (!playerPlacement.hasWumpus && !playerPlacement.hasHole && !playerPlacement.hasBat) {
+        return;
+      }
+    }
   }
 
   movePlayer(direction: string) {
