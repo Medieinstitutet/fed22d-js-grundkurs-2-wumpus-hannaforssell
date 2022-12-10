@@ -2,8 +2,9 @@
 @use "vendor/reset";
 
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: rem(16px);
+  // font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'VT323', monospace;
+  font-size: 1.4rem;
   line-height: 24px;
   font-weight: 400;
   color-scheme: light dark;
@@ -16,6 +17,10 @@
   text-size-adjust: 100%;
   box-sizing: border-box;
 }
+
+// *********************************************************
+// ----------------------- Debugging -----------------------
+// *********************************************************
 
 .intro {
   text-align: center;
@@ -33,28 +38,68 @@
   }
 }
 
+// *********************************************************
+// ------------------------ Terminal -----------------------
+// *********************************************************
+
 .terminal-parent {
   display: flex;
   justify-content: center;
 
   .terminal {
+    display: flex;
     position: relative;
     width: 600px;
-    height: 300px;
+    height: 400px;
     margin: 10px;
     background: #02402D;
     background: radial-gradient(circle farthest-corner at center center, #02402D 0%, #011710 100%);
     -moz-webkit-background-clip: text;
-    color: lightgrey;
-    border: 2px outset grey;
+    border: 2px inset grey;
+    color: #ADD325;
+    -webkit-text-stroke: 0.8px #008000;
 
-    .user-input {
-      background-color: transparent;
-      // border: none;
+    .output {
+      border: 2px inset grey;
       position: absolute;
-      bottom: 0;
       width: 100%;
+      height: auto;
+      padding-left: 5px;
+    }
+
+    .input {
+      background-color: transparent;
+      position: absolute;
+      top: 35px;
+      width: 100%;
+      height: auto;
+      padding-left: 20px;
+      color: #dd841e;
+      -webkit-text-stroke: 0.8px #dd4242;
+
+    }
+
+    &::before {
+      content: '>';
+      position: absolute;
+      top: 38px;
+      left: 5px;
+      animation: blinker 1s step-start infinite;
+    }
+
+    .output-history {
+      padding: 5px;
+      margin-top: 70px;
     }
   }
 }
 
+// *********************************************************
+// ---------------------- Animations -----------------------
+// *********************************************************
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}

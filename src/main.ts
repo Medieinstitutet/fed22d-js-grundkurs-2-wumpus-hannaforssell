@@ -58,7 +58,6 @@ console.log(game);
 /**
  * TODO
  * Write a terminal in js
- * listAdjacentRooms (close to the player) (ex: 1,7,11,10)
  * --
  * A input box
  */
