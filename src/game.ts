@@ -49,21 +49,25 @@ class Game {
     }
   }
 
-  // fix regex for movePlayer()
-
   movePlayer(direction: string) {
     let newX = this.playerX;
     let newY = this.playerY;
-    if (direction === 'North') {
+
+    const regexNorth = /^north|n$/i;
+    const regexEast = /^east|e$/i;
+    const regexSouth = /^south|s$/i;
+    const regexWest = /^west|w$/i;
+
+    if (regexNorth.test(direction)) {
       newY--;
       this.moveCount++;
-    } else if (direction === 'East') {
+    } else if (regexEast.test(direction)) {
       newX++;
       this.moveCount++;
-    } else if (direction === 'South') {
+    } else if (regexSouth.test(direction)) {
       newY++;
       this.moveCount++;
-    } else if (direction === 'West') {
+    } else if (regexWest.test(direction)) {
       newX--;
       this.moveCount++;
     } else {

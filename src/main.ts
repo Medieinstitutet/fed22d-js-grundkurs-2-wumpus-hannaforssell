@@ -15,9 +15,10 @@ const renderer = new Renderer('#boardContainer', '#arrows', '#moves');
 
 const game = new Game(5, 4, renderer);
 
-setTimeout(() => game.movePlayer('East'), 1000);
-// setTimeout(() => game.movePlayer('East'), 2000);
-// setTimeout(() => game.movePlayer('East'), 3000);
+setTimeout(() => game.movePlayer('North'), 1000);
+setTimeout(() => game.movePlayer('east'), 2000);
+setTimeout(() => game.movePlayer('s'), 3000);
+setTimeout(() => game.movePlayer('W'), 4000);
 
 // console.log(game.playerX);
 // console.log(game.playerY);
@@ -58,7 +59,6 @@ console.log(game);
 
 /**
  * TODO
- * regex for moveplayer()
  * --
  * To fix later:
  * Input/output
