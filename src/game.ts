@@ -49,6 +49,8 @@ class Game {
     }
   }
 
+  // fix regex for movePlayer()
+
   movePlayer(direction: string) {
     let newX = this.playerX;
     let newY = this.playerY;
@@ -82,15 +84,33 @@ class Game {
     if (newY === -1) {
       newY = this.board[0].length - 1;
     }
+
     this.playerX = newX;
     this.playerY = newY;
+
+    this.triggerEvents();
 
     if (this.renderer != null) {
       this.renderer.renderAll(this.board, this.playerX, this.playerY, this.arrowCount, this.moveCount);
     }
   }
 
-  // trigger events
+  triggerEvents() {
+    const playerPlacement = this.board[this.playerX][this.playerY];
+
+    if (playerPlacement.hasWumpus) {
+      console.log('Game over');
+    }
+
+    if (playerPlacement.hasHole) {
+      console.log('Game over');
+    }
+
+    if (playerPlacement.hasBat) {
+      this.randomizePlayerPosition();
+      console.log('landat på bat');
+    }
+  }
 
   // list adjacent rooms to player
   adjacentRooms() {

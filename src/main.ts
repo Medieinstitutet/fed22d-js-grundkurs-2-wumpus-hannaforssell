@@ -15,14 +15,16 @@ const renderer = new Renderer('#boardContainer', '#arrows', '#moves');
 
 const game = new Game(5, 4, renderer);
 
-// setTimeout(() => game.movePlayer('East'), 1000);
+setTimeout(() => game.movePlayer('East'), 1000);
 // setTimeout(() => game.movePlayer('East'), 2000);
 // setTimeout(() => game.movePlayer('East'), 3000);
 
 // console.log(game.playerX);
 // console.log(game.playerY);
 
-console.log(game.adjacentRooms());
+// console.log(game.adjacentRooms());
+
+console.log(game.triggerEvents());
 
 console.log(game);
 
@@ -42,7 +44,7 @@ console.log(game);
  * --
  * In rooms close to holes, you sense the smell of sewage
  * In rooms close to Wumpus, you sense the smell of him
- * "Du får också i varje rum reda på vilka rum som ligger intill" ?
+ * Adjacent rooms displays of the two above
  * --
  * Shoot Wumpus to win
  * You get five arrows
@@ -51,13 +53,16 @@ console.log(game);
  * Du kan råka skjuta dig själv"
  * --
  * Game over when Wumpus or player dies
- * "Spara antalet drag som en spelare gör ->
- * och om man vinner så sparas detta i en highscore."
+ * Saves every move, displays highscore when player wins
  */
 
 /**
  * TODO
- * Write a terminal in js
+ * regex for moveplayer()
  * --
- * A input box
+ * To fix later:
+ * Input/output
+ * Shooting arrows
+ * Highscore (for wins only?)
+ * display gameover in output for triggerEvents function
  */
