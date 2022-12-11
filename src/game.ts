@@ -90,6 +90,8 @@ class Game {
     }
   }
 
+  // trigger events
+
   // list adjacent rooms to player
   adjacentRooms() {
     let northY = this.playerY - 1;
