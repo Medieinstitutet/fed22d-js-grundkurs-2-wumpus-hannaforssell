@@ -53,6 +53,7 @@ class Game {
     let newX = this.playerX;
     let newY = this.playerY;
 
+    // input whole word or first letter, case-insensitive
     const regexNorth = /^north|n$/i;
     const regexEast = /^east|e$/i;
     const regexSouth = /^south|s$/i;
@@ -93,6 +94,7 @@ class Game {
     this.playerY = newY;
 
     this.triggerEvents();
+    this.adjacentSmells();
 
     if (this.renderer != null) {
       this.renderer.renderAll(this.board, this.playerX, this.playerY, this.arrowCount, this.moveCount);
@@ -142,6 +144,17 @@ class Game {
     const westRoom = this.board[westX][this.playerY];
 
     return [northRoom, eastRoom, southRoom, westRoom];
+  }
+
+  adjacentSmells() {
+    for (const room of this.adjacentRooms()) {
+      if (room.hasWumpus) {
+        console.log('you smell of wumpus');
+      }
+      if (room.hasHole) {
+        console.log('you sense the smell of sewage..');
+      }
+    }
   }
 
   wumpusPosition() {
