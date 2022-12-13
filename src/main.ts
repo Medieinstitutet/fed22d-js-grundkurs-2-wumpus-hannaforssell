@@ -25,7 +25,7 @@ const game = new Game(5, 4, inputOutput, renderer);
 // console.log(game.playerX);
 // console.log(game.playerY);
 
-// console.log(game);
+console.log(game);
 
 // *********************************************************
 // -------------------------- Notes ------------------------
