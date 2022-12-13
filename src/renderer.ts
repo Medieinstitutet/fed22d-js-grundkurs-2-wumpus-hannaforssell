@@ -21,7 +21,7 @@ class Renderer {
     this.moveContainer = document.querySelector(moveContainerId) as HTMLElement;
   }
 
-  renderBoard(gameboard: Room[][], playerX: number, playerY: number) {
+  renderBoard(gameboard: Room[][], playerX: number, playerY: number, arrowX: number, arrowY: number) {
     let output = '';
 
     for (let y = 0; y < gameboard[0].length; y++) {
@@ -30,6 +30,8 @@ class Renderer {
       for (let x = 0; x < gameboard.length; x++) {
         if (playerX === x && playerY === y) {
           output += `<td class="board-square"> ${gameboard[x][y].id} <img src="/player.jpg" width="50"></td>`;
+        } else if (arrowX === x && arrowY === y) {
+          output += `<td class="board-square"> ${gameboard[x][y].id} <img src="/arrow.jpg" width="50"></td>`;
         } else if (gameboard[x][y].hasWumpus) {
           output += `<td class="board-square"> ${gameboard[x][y].id} <img src="/wumpus.png" width="50"></td>`;
         } else if (gameboard[x][y].hasHole) {
@@ -53,8 +55,16 @@ class Renderer {
     this.moveContainer.innerHTML = moveCount.toString();
   }
 
-  renderAll(gameboard: Room[][], playerX: number, playerY:number, arrowCount: number, moveCount: number) {
-    this.renderBoard(gameboard, playerX, playerY);
+  renderAll(
+    gameboard: Room[][],
+    playerX: number,
+    playerY: number,
+    arrowX: number,
+    arrowY: number,
+    arrowCount: number,
+    moveCount: number,
+  ) {
+    this.renderBoard(gameboard, playerX, playerY, arrowX, arrowY);
     this.renderArrows(arrowCount);
     this.renderMoves(moveCount);
   }

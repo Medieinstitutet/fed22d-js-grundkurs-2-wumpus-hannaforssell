@@ -15,10 +15,10 @@ const renderer = new Renderer('#boardContainer', '#arrows', '#moves');
 
 const game = new Game(5, 4, renderer);
 
-setTimeout(() => game.movePlayer('n'), 1000);
-// setTimeout(() => game.movePlayer('n'), 2000);
-// setTimeout(() => game.movePlayer('s'), 3000);
-// setTimeout(() => game.movePlayer('W'), 4000);
+setTimeout(() => game.move('arrow', 'n'), 1000);
+// setTimeout(() => game.move('arrow', 'e'), 2000);
+setTimeout(() => game.move('arrow', 's'), 3000);
+// setTimeout(() => game.move('arrow', 'W'), 4000);
 
 // console.log(game.playerX);
 // console.log(game.playerY);
@@ -64,4 +64,12 @@ console.log(game);
  * Shooting arrows
  * Highscore (for wins only?)
  * display gameover in output for triggerEvents function
+ */
+
+/**
+ * SHOOT ARROWS
+ * Spawn arrow:
+ * create a picture
+ * --
+ * Move arrow: use moveplayer?
  */

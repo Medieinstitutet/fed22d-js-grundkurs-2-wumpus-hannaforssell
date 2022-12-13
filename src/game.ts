@@ -20,6 +20,10 @@ class Game {
 
   playerY = 0;
 
+  arrowX = -1;
+
+  arrowY = -1;
+
   renderer: Renderer | null;
 
   constructor(width: number, height: number, renderer: Renderer | null = null) {
@@ -32,7 +36,15 @@ class Game {
     this.renderer = renderer;
 
     if (this.renderer != null) {
-      this.renderer.renderAll(this.board, this.playerX, this.playerY, this.arrowCount, this.moveCount);
+      this.renderer.renderAll(
+        this.board,
+        this.playerX,
+        this.playerY,
+        this.arrowX,
+        this.arrowY,
+        this.arrowCount,
+        this.moveCount,
+      );
     }
   }
 
@@ -49,15 +61,26 @@ class Game {
     }
   }
 
-  movePlayer(direction: string) {
-    let newX = this.playerX;
-    let newY = this.playerY;
+  move(entity: string, direction: string) {
+    let newX;
+    let newY;
+    if (entity === 'player' || this.arrowX === -1) {
+      newX = this.playerX;
+      newY = this.playerY;
+    } else if (entity === 'arrow') {
+      newX = this.arrowX;
+      newY = this.arrowY;
+    } else {
+      return;
+    }
 
     // input whole word or first letter, case-insensitive
     const regexNorth = /^north|n$/i;
     const regexEast = /^east|e$/i;
     const regexSouth = /^south|s$/i;
     const regexWest = /^west|w$/i;
+
+    // FIX!! moveCount should not be applied for arrow
 
     if (regexNorth.test(direction)) {
       newY--;
@@ -90,19 +113,35 @@ class Game {
       newY = this.board[0].length - 1;
     }
 
-    this.playerX = newX;
-    this.playerY = newY;
+    if (entity === 'player') {
+      this.playerX = newX;
+      this.playerY = newY;
+    } else if (entity === 'arrow') {
+      this.arrowX = newX;
+      this.arrowY = newY;
+    }
+
+    // FIX!! should not be activated when arrow moves
 
     this.triggerEvents();
     this.adjacentSmells();
 
     if (this.renderer != null) {
-      this.renderer.renderAll(this.board, this.playerX, this.playerY, this.arrowCount, this.moveCount);
+      this.renderer.renderAll(
+        this.board,
+        this.playerX,
+        this.playerY,
+        this.arrowX,
+        this.arrowY,
+        this.arrowCount,
+        this.moveCount,
+      );
     }
   }
 
   triggerEvents() {
     const playerPlacement = this.board[this.playerX][this.playerY];
+    const arrowPlacement = this.board[this.arrowX][this.arrowY];
 
     if (playerPlacement.hasWumpus) {
       console.log('Game over');
@@ -114,7 +153,11 @@ class Game {
 
     if (playerPlacement.hasBat) {
       this.randomizePlayerPosition();
-      console.log('landat på bat');
+      console.log('landed on bat');
+    }
+
+    if (playerPlacement === arrowPlacement) {
+      console.log('you have shot yourself');
     }
   }
 
