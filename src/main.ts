@@ -6,26 +6,26 @@ import './style/style.scss';
 
 import Game from './game';
 import Renderer from './renderer';
+import InputOutput from './inputoutput';
 
 // *********************************************************
 // ---------------- Creating the gameboard -----------------
 // *********************************************************
 
+const inputOutput = new InputOutput('#input', '#output');
 const renderer = new Renderer('#boardContainer', '#arrows', '#moves');
 
-const game = new Game(5, 4, renderer);
+const game = new Game(5, 4, inputOutput, renderer);
 
-setTimeout(() => game.move('arrow', 'n'), 1000);
+// setTimeout(() => game.move('arrow', 'n'), 1000);
 // setTimeout(() => game.move('arrow', 'e'), 2000);
-setTimeout(() => game.move('arrow', 's'), 3000);
+// setTimeout(() => game.move('arrow', 's'), 3000);
 // setTimeout(() => game.move('arrow', 'W'), 4000);
 
 // console.log(game.playerX);
 // console.log(game.playerY);
 
-console.log(game.adjacentSmells());
-
-console.log(game);
+// console.log(game);
 
 // *********************************************************
 // -------------------------- Notes ------------------------

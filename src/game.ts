@@ -4,6 +4,7 @@
 
 import Room from './room';
 import Renderer from './renderer';
+import InputOutput from './inputoutput';
 
 // *********************************************************
 // -------------- Creating a class for Game ----------------
@@ -24,14 +25,29 @@ class Game {
 
   arrowY = -1;
 
+  inputOutput: InputOutput;
+
   renderer: Renderer | null;
 
-  constructor(width: number, height: number, renderer: Renderer | null = null) {
+  constructor(width: number, height: number, inputOutput: InputOutput, renderer: Renderer | null = null) {
     this.arrowCount = 5;
     this.moveCount = 0;
 
     this.generateGameboard(width, height);
     this.randomizePlayerPosition();
+
+    this.inputOutput = inputOutput;
+    this.inputOutput.input.addEventListener('keyup', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        this.gameLoop();
+      }
+    });
+
+    // Welcome-message
+    this.inputOutput.writeLine('Lets hunt some WumpASS!');
+
+    this.initRoom();
 
     this.renderer = renderer;
 
@@ -95,7 +111,7 @@ class Game {
       newX--;
       this.moveCount++;
     } else {
-      console.log('Choose either North, East, South or West.');
+      this.inputOutput.writeLine('Choose either North, East, South or West.');
       return;
     }
 
@@ -124,7 +140,6 @@ class Game {
     // FIX!! should not be activated when arrow moves
 
     this.triggerEvents();
-    this.adjacentSmells();
 
     if (this.renderer != null) {
       this.renderer.renderAll(
@@ -144,20 +159,20 @@ class Game {
     const arrowPlacement = this.board[this.arrowX][this.arrowY];
 
     if (playerPlacement.hasWumpus) {
-      console.log('Game over');
+      this.inputOutput.writeLine('Game over');
     }
 
     if (playerPlacement.hasHole) {
-      console.log('Game over');
+      this.inputOutput.writeLine('Game over');
     }
 
     if (playerPlacement.hasBat) {
       this.randomizePlayerPosition();
-      console.log('landed on bat');
+      this.inputOutput.writeLine('landed on bat');
     }
 
     if (playerPlacement === arrowPlacement) {
-      console.log('you have shot yourself');
+      this.inputOutput.writeLine('you have shot yourself');
     }
   }
 
@@ -189,15 +204,32 @@ class Game {
     return [northRoom, eastRoom, southRoom, westRoom];
   }
 
-  adjacentSmells() {
+  initRoom() {
+    let foundWumpus = false;
+    let foundHole = false;
+
+    const rooms = [];
     for (const room of this.adjacentRooms()) {
+      rooms.push(room.id);
+
       if (room.hasWumpus) {
-        console.log('you smell of wumpus');
+        foundWumpus = true;
       }
       if (room.hasHole) {
-        console.log('you sense the smell of sewage..');
+        foundHole = true;
       }
+      // add bats
     }
+
+    if (foundWumpus) {
+      this.inputOutput.writeLine('You smell of Wumpus');
+    }
+    if (foundHole) {
+      this.inputOutput.writeLine('You sense the smell of sewage..');
+    }
+
+    this.inputOutput.writeLine(`You can go to rooms ${rooms.toString()}`);
+    this.inputOutput.writeLine('Would you like to move or shoot?');
   }
 
   wumpusPosition() {
@@ -256,7 +288,6 @@ class Game {
     }
 
     if (Game.emptyRooms(board) < 2) {
-      console.log('bad room, trying again!');
       this.generateGameboard(width, height);
       return;
     }
@@ -264,6 +295,10 @@ class Game {
     Game.randomizeWumpusPosition(board);
 
     this.board = board;
+  }
+
+  gameLoop() {
+    console.log('test');
   }
 
   private static randomizeWumpusPosition(board: Room[][]) {
