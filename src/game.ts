@@ -104,20 +104,26 @@ class Game {
     const regexSouth = /^south|s$/i;
     const regexWest = /^west|w$/i;
 
-    // FIX!! moveCount should not be applied for arrow
-
     if (regexNorth.test(direction)) {
       newY--;
-      this.moveCount++;
+      if (entity === 'player') {
+        this.moveCount++;
+      }
     } else if (regexEast.test(direction)) {
       newX++;
-      this.moveCount++;
+      if (entity === 'player') {
+        this.moveCount++;
+      }
     } else if (regexSouth.test(direction)) {
       newY++;
-      this.moveCount++;
+      if (entity === 'player') {
+        this.moveCount++;
+      }
     } else if (regexWest.test(direction)) {
       newX--;
-      this.moveCount++;
+      if (entity === 'player') {
+        this.moveCount++;
+      }
     } else {
       this.inputOutput.writeLine('Choose either North, East, South or West.');
       return;
@@ -156,21 +162,25 @@ class Game {
     const playerPlacement = this.board[this.playerX][this.playerY];
 
     if (playerPlacement.hasWumpus) {
-      this.inputOutput.writeLine('Wumpus killed you.. Game over.');
+      this.inputOutput.writeLine('Wumpus killed you..');
+      this.loseGame();
     }
 
     if (playerPlacement.hasHole) {
-      this.inputOutput.writeLine('You fell into a hole.. Game over.');
+      this.inputOutput.writeLine('You fell into a hole..');
+      this.loseGame();
     }
 
     // add which room you land in
     if (playerPlacement.hasBat) {
       this.randomizePlayerPosition();
       this.inputOutput.writeLine('You walked right into the bats! They flew away with you.');
+      this.loseGame();
     }
 
     if (this.playerX === this.arrowX && this.playerY === this.arrowY) {
-      this.inputOutput.writeLine('You (hopefully) accidentally shot yourself.. Game over.');
+      this.inputOutput.writeLine('You (hopefully) accidentally shot yourself..');
+      this.loseGame();
     }
 
     if (this.arrowX !== -1 && this.arrowY !== -1) {
@@ -211,6 +221,7 @@ class Game {
   initRoom() {
     let foundWumpus = false;
     let foundHole = false;
+    let foundBat = false;
 
     const rooms = [];
     for (const room of this.adjacentRooms()) {
@@ -222,7 +233,9 @@ class Game {
       if (room.hasHole) {
         foundHole = true;
       }
-      // add bats
+      if (room.hasBat) {
+        foundBat = true;
+      }
     }
 
     if (foundWumpus) {
@@ -230,6 +243,9 @@ class Game {
     }
     if (foundHole) {
       this.inputOutput.writeLine('You sense the smell of sewage..');
+    }
+    if (foundBat) {
+      this.inputOutput.writeLine('You feel the wind coming from wingtips..');
     }
 
     this.inputOutput.writeLine(`You can go to rooms${rooms.toString()}.`);
@@ -301,27 +317,38 @@ class Game {
     this.board = board;
   }
 
-  // will fix regex for input, and upper/lowercase
+  // will fix upper/lowercase
   // only five arrows!
   gameLoop() {
     this.renderAll();
 
+    const regexMove = /^move|m$/i;
+    const regexShoot = /^shoot|s$/i;
+    const regexNorth = /^north|n$/i;
+    const regexEast = /^east|e$/i;
+    const regexSouth = /^south|s$/i;
+    const regexWest = /^west|w$/i;
+
     if (this.state === 'Choose') {
       const inputText = this.inputOutput.inputLine();
 
-      if (inputText === 'M') {
+      if (regexMove.test(inputText)) {
         this.state = 'Move';
         this.inputOutput.writeLine('In which direction would you like to go? (N, E, S, W)');
-      } else if (inputText === 'S') {
+      } else if (regexShoot.test(inputText)) {
         this.state = 'Shoot';
         this.inputOutput.writeLine('In which direction would you like to shoot? (N, E, S, W)');
+        this.arrowCount--;
       } else {
         this.inputOutput.writeLine('Would you like to move or shoot? (M, S)');
       }
     } else if (this.state === 'Move') {
       const inputText = this.inputOutput.inputLine();
 
-      if (inputText === 'N' || inputText === 'E' || inputText === 'S' || inputText === 'W') {
+      if (regexNorth.test(inputText)
+        || regexEast.test(inputText)
+        || regexSouth.test(inputText)
+        || regexWest.test(inputText)) {
         this.move('player', inputText);
         this.initRoom();
       } else {
@@ -330,7 +357,10 @@ class Game {
     } else if (this.state === 'Shoot') {
       const inputText = this.inputOutput.inputLine();
 
-      if (inputText === 'N' || inputText === 'E' || inputText === 'S' || inputText === 'W') {
+      if (regexNorth.test(inputText)
+      || regexEast.test(inputText)
+      || regexSouth.test(inputText)
+      || regexWest.test(inputText)) {
         this.move('arrow', inputText);
         this.arrowMoveCount++;
 
@@ -348,11 +378,15 @@ class Game {
     }
   }
 
-  // if movecount is less than 5, put in only?
   winGame() {
     this.state = 'Won';
     this.inputOutput.writeLine('You have won!');
     this.inputOutput.writeLine(`You defeated Wumpus after only ${this.moveCount} moves!`);
+    this.inputOutput.disableInput();
+  }
+
+  loseGame() {
+    this.inputOutput.writeLine('You have lost the game..');
     this.inputOutput.disableInput();
   }
 

@@ -57,19 +57,13 @@ console.log(game);
 
 /**
  * TODO
- * shooting arrows (use movePlayer to navigate?)
- * --
- * To fix later:
- * Input/output
- * Shooting arrows
- * Highscore (for wins only?)
- * display gameover in output for triggerEvents function
- */
-
-/**
- * SHOOT ARROWS
- * Spawn arrow:
- * create a picture
- * --
- * Move arrow: use moveplayer?
+ * fix comments in code
+ * test game
+ * remove display of debugging code
+ * fix intro
+ * remove player info
+ * remove wumpusPosition & moveWumpus?
+ * BUG: when S for shoot, player goes south (after move the first time)
+ * BUG: shooting arrow only works good once
+ * BUG: when you die, dont run initRoom
  */
