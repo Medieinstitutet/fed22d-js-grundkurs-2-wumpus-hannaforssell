@@ -25,6 +25,10 @@ class InputOutput {
 
     return inputText;
   }
+
+  disableInput() {
+    this.input.disabled = true;
+  }
 }
 
 // *********************************************************

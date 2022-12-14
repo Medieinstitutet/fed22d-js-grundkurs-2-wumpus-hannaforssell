@@ -29,7 +29,7 @@ class Renderer {
 
       for (let x = 0; x < gameboard.length; x++) {
         if (playerX === x && playerY === y) {
-          output += `<td class="board-square"> ${gameboard[x][y].id} <img src="/player.jpg" width="50"></td>`;
+          output += `<td class="board-square"> ${gameboard[x][y].id} <img src="player.jpg" width="50"></td>`;
         } else if (arrowX === x && arrowY === y) {
           output += `<td class="board-square"> ${gameboard[x][y].id} <img src="/arrow.jpg" width="50"></td>`;
         } else if (gameboard[x][y].hasWumpus) {
