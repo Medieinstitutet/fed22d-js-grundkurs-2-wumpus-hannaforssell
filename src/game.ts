@@ -25,6 +25,8 @@ class Game {
 
   arrowY = -1;
 
+  state = 'Choose';
+
   inputOutput: InputOutput;
 
   renderer: Renderer | null;
@@ -45,7 +47,7 @@ class Game {
     });
 
     // Welcome-message
-    this.inputOutput.writeLine('Lets hunt some WumpASS!');
+    this.inputOutput.writeLine('Lets find Wumpus before he finds you!');
 
     this.initRoom();
 
@@ -156,23 +158,23 @@ class Game {
 
   triggerEvents() {
     const playerPlacement = this.board[this.playerX][this.playerY];
-    const arrowPlacement = this.board[this.arrowX][this.arrowY];
 
     if (playerPlacement.hasWumpus) {
-      this.inputOutput.writeLine('Game over');
+      this.inputOutput.writeLine('Wumpus killed you.. Game over.');
     }
 
     if (playerPlacement.hasHole) {
-      this.inputOutput.writeLine('Game over');
+      this.inputOutput.writeLine('You fell into a hole.. Game over.');
     }
 
+    // add which room you land in
     if (playerPlacement.hasBat) {
       this.randomizePlayerPosition();
-      this.inputOutput.writeLine('landed on bat');
+      this.inputOutput.writeLine('You walked right into the bats! They flew away with you.');
     }
 
-    if (playerPlacement === arrowPlacement) {
-      this.inputOutput.writeLine('you have shot yourself');
+    if (this.playerX === this.arrowX && this.playerY === this.arrowY) {
+      this.inputOutput.writeLine('You (hopefully) accidentally shot yourself.. Game over.');
     }
   }
 
@@ -210,7 +212,7 @@ class Game {
 
     const rooms = [];
     for (const room of this.adjacentRooms()) {
-      rooms.push(room.id);
+      rooms.push(` ${room.id}`);
 
       if (room.hasWumpus) {
         foundWumpus = true;
@@ -222,14 +224,14 @@ class Game {
     }
 
     if (foundWumpus) {
-      this.inputOutput.writeLine('You smell of Wumpus');
+      this.inputOutput.writeLine('You smell of Wumpus!');
     }
     if (foundHole) {
       this.inputOutput.writeLine('You sense the smell of sewage..');
     }
 
-    this.inputOutput.writeLine(`You can go to rooms ${rooms.toString()}`);
-    this.inputOutput.writeLine('Would you like to move or shoot?');
+    this.inputOutput.writeLine(`You can go to rooms${rooms.toString()}.`);
+    this.inputOutput.writeLine('Would you like to move or shoot? (M, S)');
   }
 
   wumpusPosition() {
@@ -297,8 +299,32 @@ class Game {
     this.board = board;
   }
 
+  // will fix regex for input
   gameLoop() {
-    console.log('test');
+    if (this.state === 'Choose') {
+      const inputText = this.inputOutput.inputLine();
+
+      if (inputText === 'M') {
+        this.state = 'Move';
+        this.inputOutput.writeLine('In which direction would you like to go? (N, E, S, W)');
+      } else if (inputText === 'S') {
+        this.state = 'Shoot';
+      } else {
+        this.inputOutput.writeLine('Would you like to move or shoot? (M, S)');
+      }
+    } else if (this.state === 'Move') {
+      const inputText = this.inputOutput.inputLine();
+
+      if (inputText === 'N' || inputText === 'E' || inputText === 'S' || inputText === 'W') {
+        this.move('player', inputText);
+        this.initRoom();
+      } else {
+        this.inputOutput.writeLine('In which direction would you like to go? (N, E, S, W)');
+      }
+      console.log(inputText);
+    }
+
+    // console.log(this.state);
   }
 
   private static randomizeWumpusPosition(board: Room[][]) {
