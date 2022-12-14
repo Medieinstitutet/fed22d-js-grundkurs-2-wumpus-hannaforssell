@@ -175,7 +175,6 @@ class Game {
     if (playerPlacement.hasBat) {
       this.randomizePlayerPosition();
       this.inputOutput.writeLine('You walked right into the bats! They flew away with you.');
-      this.loseGame();
     }
 
     if (this.playerX === this.arrowX && this.playerY === this.arrowY) {

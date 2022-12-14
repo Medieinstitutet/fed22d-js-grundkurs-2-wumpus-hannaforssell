@@ -29,15 +29,20 @@ class Renderer {
 
       for (let x = 0; x < gameboard.length; x++) {
         if (playerX === x && playerY === y) {
-          output += `<td class="board-square"> ${gameboard[x][y].id} <img src="player.jpg" width="50"></td>`;
+          output += `<td class="board-square"> ${gameboard[x][y].id}
+          <img src="player.jpg" alt="a drawn game hand console" width="50"></td>`;
         } else if (arrowX === x && arrowY === y) {
-          output += `<td class="board-square"> ${gameboard[x][y].id} <img src="arrow.jpg" width="50"></td>`;
+          output += `<td class="board-square"> ${gameboard[x][y].id}
+          <img src="arrow.jpg" alt="a drawn arrow" width="50"></td>`;
         } else if (gameboard[x][y].hasWumpus) {
-          output += `<td class="board-square"> ${gameboard[x][y].id} <img src="wumpus.png" width="50"></td>`;
+          output += `<td class="board-square"> ${gameboard[x][y].id}
+          <img src="wumpus.png" alt="a red drawn monster" width="50"></td>`;
         } else if (gameboard[x][y].hasHole) {
-          output += `<td class="board-square"> ${gameboard[x][y].id} <img src="hole.jpg" width="50"></td>`;
+          output += `<td class="board-square"> ${gameboard[x][y].id}
+          <img src="hole.jpg" alt="a hole in the ground" width="50"></td>`;
         } else if (gameboard[x][y].hasBat) {
-          output += `<td class="board-square"> ${gameboard[x][y].id} <img src="bats.jpg" width="50"></td>`;
+          output += `<td class="board-square"> ${gameboard[x][y].id}
+          <img src="bats.jpg" alt="multiple cartoon bats" width="50"></td>`;
         } else {
           output += `<td class="board-square"> ${gameboard[x][y].id} </td>`;
         }

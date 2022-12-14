@@ -14,6 +14,7 @@ class InputOutput {
 
   writeLine(line: string) {
     this.output.innerHTML += `${line}\n`;
+    this.autoScrollDown();
   }
 
   inputLine(): string {
@@ -28,6 +29,10 @@ class InputOutput {
 
   disableInput() {
     this.input.disabled = true;
+  }
+
+  autoScrollDown() {
+    this.output.scrollTop = this.output.scrollHeight;
   }
 }
 
