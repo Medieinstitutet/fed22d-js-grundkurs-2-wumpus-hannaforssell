@@ -13,9 +13,9 @@ import InputOutput from './inputoutput';
 // *********************************************************
 
 const inputOutput = new InputOutput('#input', '#output');
-const renderer = new Renderer('#boardContainer', '#arrows', '#moves');
+// const renderer = new Renderer('#boardContainer', '#arrows', '#moves');
 
-const game = new Game(5, 4, inputOutput, renderer);
+const game = new Game(5, 4, inputOutput);
 
 game.start();
 
@@ -51,7 +51,6 @@ game.start();
  * TODO
  * remove display of debugging code
  * fix intro
- * remove wumpusPosition & moveWumpus?
  * make state into enum
  * regex into action.ts
  */

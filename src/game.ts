@@ -249,38 +249,6 @@ class Game {
     this.inputOutput.writeLine('Would you like to move or shoot? (M, S)');
   }
 
-  wumpusPosition() {
-    for (let y = 0; y < this.board[0].length; y++) {
-      for (let x = 0; x < this.board.length; x++) {
-        if (this.board[x][y].hasWumpus) {
-          // console.log(x);
-          // console.log(y);
-        }
-      }
-    }
-  }
-
-  moveWumpus() {
-    for (let y = 0; y < this.board[0].length; y++) {
-      for (let x = 0; x < this.board.length; x++) {
-        if (this.board[x][y].hasWumpus) {
-          let newX = x + 1;
-          let newY = y;
-          if (newX === this.board.length) {
-            newX = 0;
-          } else if (newY === this.board[0].length) {
-            newY = 0;
-          }
-          console.log(x);
-          console.log(y);
-          this.board[x][y].hasWumpus = false;
-          this.board[newX][newY].hasWumpus = true;
-          return;
-        }
-      }
-    }
-  }
-
   private generateGameboard(width: number, height: number) {
     if (width * height < 20) {
       throw new Error('The gameboard is too small! Choose a bigger one.');
