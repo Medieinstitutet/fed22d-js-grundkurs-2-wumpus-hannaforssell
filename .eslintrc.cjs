@@ -39,5 +39,3 @@ module.exports = {
     "no-restricted-syntax": ["off"]
   }
 }
-
-// eslint-disable-next-line no-constant-condition

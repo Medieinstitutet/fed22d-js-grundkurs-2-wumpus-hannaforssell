@@ -1,10 +1,10 @@
-@use "utils/a11y";
-@use "vendor/reset";
+@use 'utils/a11y';
+@use 'vendor/reset';
 
 :root {
   // font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-family: 'VT323', monospace;
-  font-size: 1.4rem;
+  font-size: a11y.rem(25px);
   line-height: 24px;
   font-weight: 400;
   color-scheme: light dark;
@@ -19,13 +19,25 @@
 }
 
 // *********************************************************
-// ----------------------- Debugging -----------------------
+// ----------------------- Intro -----------------------
 // *********************************************************
 
 .intro {
+  display: flex;
+  flex-direction: column;
   text-align: center;
   margin-top: 50px;
+
+  h1 {
+    font-size: a11y.rem(40px);
+    text-transform: uppercase;
+    text-shadow: 2px 2px 0 #3ab83a, 4px 4px 0 #000;
+  }
 }
+
+// *********************************************************
+// ----------------------- Debugging -----------------------
+// *********************************************************
 
 .board-container {
   display: flex;
@@ -48,7 +60,7 @@
 
   .terminal {
     position: relative;
-    width: 600px;
+    width: 700px;
     height: 400px;
     margin: 10px;
     background: #02402D;
@@ -56,7 +68,7 @@
     -moz-webkit-background-clip: text;
     border: 2px inset grey;
     color: #ADD325;
-    -webkit-text-stroke: 0.8px #008000;
+    -webkit-text-stroke: 0.8px #3ab83a;
 
     .output {
       position: absolute;
