@@ -2,6 +2,7 @@
 // ------------------------ Imports ------------------------
 // *********************************************************
 
+import Action from './action';
 import Direction from './direction';
 
 // *********************************************************
@@ -56,6 +57,19 @@ class InputOutput {
       return Direction.West;
     }
     return Direction.Unknown;
+  }
+
+  static parseAction(action: string): Action {
+    const regexMove = /^move|m$/i;
+    const regexShoot = /^shoot|s$/i;
+
+    if (regexMove.test(action)) {
+      return Action.Move;
+    }
+    if (regexShoot.test(action)) {
+      return Action.Shoot;
+    }
+    return Action.Unknown;
   }
 }
 

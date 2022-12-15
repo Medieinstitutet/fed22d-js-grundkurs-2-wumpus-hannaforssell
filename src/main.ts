@@ -5,7 +5,7 @@
 import './style/style.scss';
 
 import Game from './game';
-import Renderer from './renderer';
+// import Renderer from './renderer';
 import InputOutput from './inputoutput';
 
 // *********************************************************
@@ -49,8 +49,5 @@ game.start();
 
 /**
  * TODO
- * remove display of debugging code
  * fix intro
- * make state into enum
- * regex into action.ts
  */
