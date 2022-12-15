@@ -5,17 +5,18 @@
 import Room from './room';
 import Renderer from './renderer';
 import InputOutput from './inputoutput';
+import Direction from './direction';
 
 // *********************************************************
 // -------------- Creating a class for Game ----------------
 // *********************************************************
 
 class Game {
-  arrowCount: number;
+  arrowCount = 5;
 
   arrowMoveCount = 0;
 
-  moveCount: number;
+  moveCount = 0;
 
   board: Room[][] = [];
 
@@ -29,18 +30,21 @@ class Game {
 
   state = 'Choose';
 
+  gameOver = false;
+
   inputOutput: InputOutput;
 
   renderer: Renderer | null;
 
   constructor(width: number, height: number, inputOutput: InputOutput, renderer: Renderer | null = null) {
-    this.arrowCount = 5;
-    this.moveCount = 0;
-
     this.generateGameboard(width, height);
     this.randomizePlayerPosition();
 
     this.inputOutput = inputOutput;
+    this.renderer = renderer;
+  }
+
+  start() {
     this.inputOutput.input.addEventListener('keyup', (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
@@ -48,13 +52,9 @@ class Game {
       }
     });
 
-    // Welcome-message
     this.inputOutput.writeLine('Lets find Wumpus before he finds you!');
 
     this.initRoom();
-
-    this.renderer = renderer;
-
     this.renderAll();
   }
 
@@ -85,7 +85,7 @@ class Game {
     }
   }
 
-  move(entity: string, direction: string) {
+  move(entity: string, direction: Direction) {
     let newX;
     let newY;
     if (entity === 'player' || this.arrowX === -1) {
@@ -98,28 +98,22 @@ class Game {
       return;
     }
 
-    // input whole word or first letter, case-insensitive
-    const regexNorth = /^north|n$/i;
-    const regexEast = /^east|e$/i;
-    const regexSouth = /^south|s$/i;
-    const regexWest = /^west|w$/i;
-
-    if (regexNorth.test(direction)) {
+    if (direction === Direction.North) {
       newY--;
       if (entity === 'player') {
         this.moveCount++;
       }
-    } else if (regexEast.test(direction)) {
+    } else if (direction === Direction.East) {
       newX++;
       if (entity === 'player') {
         this.moveCount++;
       }
-    } else if (regexSouth.test(direction)) {
+    } else if (direction === Direction.South) {
       newY++;
       if (entity === 'player') {
         this.moveCount++;
       }
-    } else if (regexWest.test(direction)) {
+    } else if (direction === Direction.West) {
       newX--;
       if (entity === 'player') {
         this.moveCount++;
@@ -151,15 +145,12 @@ class Game {
       this.arrowY = newY;
     }
 
-    // FIX!! should not be activated when arrow moves
-
     this.triggerEvents();
-
     this.renderAll();
   }
 
   triggerEvents() {
-    const playerPlacement = this.board[this.playerX][this.playerY];
+    let playerPlacement = this.board[this.playerX][this.playerY];
 
     if (playerPlacement.hasWumpus) {
       this.inputOutput.writeLine('Wumpus killed you..');
@@ -171,10 +162,17 @@ class Game {
       this.loseGame();
     }
 
-    // add which room you land in
     if (playerPlacement.hasBat) {
       this.randomizePlayerPosition();
-      this.inputOutput.writeLine('You walked right into the bats! They flew away with you.');
+      playerPlacement = this.board[this.playerX][this.playerY];
+      this.inputOutput.writeLine(
+        `You walked right into the bats! They flew away with you to room ${playerPlacement.id}.`,
+      );
+    }
+
+    if (this.arrowCount <= 0) {
+      this.inputOutput.writeLine('You ran out of arrows..');
+      this.loseGame();
     }
 
     if (this.playerX === this.arrowX && this.playerY === this.arrowY) {
@@ -316,17 +314,11 @@ class Game {
     this.board = board;
   }
 
-  // will fix upper/lowercase
-  // only five arrows!
   gameLoop() {
     this.renderAll();
 
     const regexMove = /^move|m$/i;
     const regexShoot = /^shoot|s$/i;
-    const regexNorth = /^north|n$/i;
-    const regexEast = /^east|e$/i;
-    const regexSouth = /^south|s$/i;
-    const regexWest = /^west|w$/i;
 
     if (this.state === 'Choose') {
       const inputText = this.inputOutput.inputLine();
@@ -337,39 +329,51 @@ class Game {
       } else if (regexShoot.test(inputText)) {
         this.state = 'Shoot';
         this.inputOutput.writeLine('In which direction would you like to shoot? (N, E, S, W)');
-        this.arrowCount--;
       } else {
         this.inputOutput.writeLine('Would you like to move or shoot? (M, S)');
       }
     } else if (this.state === 'Move') {
       const inputText = this.inputOutput.inputLine();
 
-      if (regexNorth.test(inputText)
-        || regexEast.test(inputText)
-        || regexSouth.test(inputText)
-        || regexWest.test(inputText)) {
-        this.move('player', inputText);
+      const direction = InputOutput.parseDirection(inputText);
+
+      if (direction !== Direction.Unknown) {
+        this.move('player', direction);
+        if (this.gameOver) {
+          return;
+        }
         this.initRoom();
+
+        this.state = 'Choose';
       } else {
         this.inputOutput.writeLine('In which direction would you like to go? (N, E, S, W)');
       }
     } else if (this.state === 'Shoot') {
       const inputText = this.inputOutput.inputLine();
 
-      if (regexNorth.test(inputText)
-      || regexEast.test(inputText)
-      || regexSouth.test(inputText)
-      || regexWest.test(inputText)) {
-        this.move('arrow', inputText);
+      const direction = InputOutput.parseDirection(inputText);
+
+      if (direction !== Direction.Unknown) {
+        this.move('arrow', direction);
+        if (this.gameOver) {
+          return;
+        }
         this.arrowMoveCount++;
 
-        // fix another argument instead of disabled
-
-        if (this.arrowMoveCount === 3 && this.inputOutput.input.disabled === false) {
+        if (this.arrowMoveCount === 3) {
           this.state = 'Choose';
           this.arrowX = -1;
           this.arrowY = -1;
+          this.arrowMoveCount = 0;
+          this.arrowCount--;
+          this.triggerEvents();
+          this.renderAll();
+          if (this.gameOver) {
+            return;
+          }
           this.inputOutput.writeLine('Would you like to move or shoot? (M, S)');
+        } else {
+          this.inputOutput.writeLine('In which direction would you like to shoot? (N, E, S, W)');
         }
       } else {
         this.inputOutput.writeLine('In which direction would you like to shoot? (N, E, S, W)');
@@ -379,12 +383,17 @@ class Game {
 
   winGame() {
     this.state = 'Won';
+    this.gameOver = true;
     this.inputOutput.writeLine('You have won!');
-    this.inputOutput.writeLine(`You defeated Wumpus after only ${this.moveCount} moves!`);
+    this.inputOutput.writeLine(
+      `You defeated Wumpus after${this.moveCount <= 5 ? ' only' : ''} ${this.moveCount} moves!`,
+    );
     this.inputOutput.disableInput();
   }
 
   loseGame() {
+    this.state = 'Lost';
+    this.gameOver = true;
     this.inputOutput.writeLine('You have lost the game..');
     this.inputOutput.disableInput();
   }

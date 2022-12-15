@@ -17,15 +17,7 @@ const renderer = new Renderer('#boardContainer', '#arrows', '#moves');
 
 const game = new Game(5, 4, inputOutput, renderer);
 
-// setTimeout(() => game.move('arrow', 'n'), 1000);
-// setTimeout(() => game.move('arrow', 'e'), 2000);
-// setTimeout(() => game.move('arrow', 's'), 3000);
-// setTimeout(() => game.move('arrow', 'W'), 4000);
-
-// console.log(game.playerX);
-// console.log(game.playerY);
-
-console.log(game);
+game.start();
 
 // *********************************************************
 // -------------------------- Notes ------------------------
@@ -57,13 +49,9 @@ console.log(game);
 
 /**
  * TODO
- * fix comments in code
- * test game
  * remove display of debugging code
  * fix intro
- * remove player info
  * remove wumpusPosition & moveWumpus?
- * BUG: when S for shoot, player goes south (after move the first time)
- * BUG: shooting arrow only works good once
- * BUG: when you die, dont run initRoom
+ * make state into enum
+ * regex into action.ts
  */

@@ -1,4 +1,10 @@
 // *********************************************************
+// ------------------------ Imports ------------------------
+// *********************************************************
+
+import Direction from './direction';
+
+// *********************************************************
 // --------------- Creating InputOutput class -----------------
 // *********************************************************
 
@@ -14,7 +20,7 @@ class InputOutput {
 
   writeLine(line: string) {
     this.output.innerHTML += `${line}\n`;
-    this.autoScrollDown();
+    this.output.scrollTop = this.output.scrollHeight;
   }
 
   inputLine(): string {
@@ -31,8 +37,25 @@ class InputOutput {
     this.input.disabled = true;
   }
 
-  autoScrollDown() {
-    this.output.scrollTop = this.output.scrollHeight;
+  static parseDirection(direction: string): Direction {
+    const regexNorth = /^north|n$/i;
+    const regexEast = /^east|e$/i;
+    const regexSouth = /^south|s$/i;
+    const regexWest = /^west|w$/i;
+
+    if (regexNorth.test(direction)) {
+      return Direction.North;
+    }
+    if (regexEast.test(direction)) {
+      return Direction.East;
+    }
+    if (regexSouth.test(direction)) {
+      return Direction.South;
+    }
+    if (regexWest.test(direction)) {
+      return Direction.West;
+    }
+    return Direction.Unknown;
   }
 }
 

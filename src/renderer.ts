@@ -53,11 +53,11 @@ class Renderer {
   }
 
   renderArrows(arrowCount: number) {
-    this.arrowContainer.innerHTML = arrowCount.toString();
+    this.arrowContainer.innerHTML = `Arrows left: ${arrowCount.toString()}`;
   }
 
   renderMoves(moveCount: number) {
-    this.moveContainer.innerHTML = moveCount.toString();
+    this.moveContainer.innerHTML = `Moves: ${moveCount.toString()}`;
   }
 
   renderAll(
