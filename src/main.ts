@@ -5,7 +5,7 @@
 import './style/style.scss';
 
 import Game from './game';
-// import Renderer from './renderer';
+import Renderer from './renderer';
 import InputOutput from './inputoutput';
 
 // *********************************************************
@@ -13,8 +13,8 @@ import InputOutput from './inputoutput';
 // *********************************************************
 
 const inputOutput = new InputOutput('#input', '#output');
-// const renderer = new Renderer('#boardContainer', '#arrows', '#moves');
+const renderer = new Renderer('#boardContainer', '#arrows', '#moves');
 
-const game = new Game(5, 4, inputOutput);
+const game = new Game(5, 4, inputOutput, renderer);
 
 game.start();

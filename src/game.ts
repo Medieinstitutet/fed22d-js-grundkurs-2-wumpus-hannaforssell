@@ -51,20 +51,26 @@ class Game {
   }
 
   start() {
+    this.state = GameState.Choose;
+    this.inputOutput.output.innerHTML = '';
     this.generateGameboard(this.width, this.height);
     this.randomizePlayerPosition();
-
-    this.inputOutput.input.addEventListener('keyup', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        this.gameLoop();
-      }
-    });
 
     this.inputOutput.writeLine('Lets shoot Wumpus before he finds you!');
 
     this.initRoom();
     this.renderAll();
+
+    if (this.inputOutput.input.getAttribute('listener') !== 'true') {
+      this.inputOutput.input.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const elementClicked = e.target as Element;
+          elementClicked.setAttribute('listener', 'true');
+          this.gameLoop();
+        }
+      });
+    }
   }
 
   renderAll() {
@@ -296,7 +302,9 @@ class Game {
 
     const inputText = this.inputOutput.inputLine();
 
-    if (this.state === GameState.Choose) {
+    if (InputOutput.isRestart(inputText)) {
+      this.start();
+    } else if (this.state === GameState.Choose) {
       const action = InputOutput.parseAction(inputText);
 
       if (action === Action.Move) {
@@ -360,14 +368,14 @@ class Game {
     this.inputOutput.writeLine(
       `You defeated Wumpus after${this.moveCount <= 5 ? ' only' : ''} ${this.moveCount} moves!`,
     );
-    this.inputOutput.disableInput();
+    this.inputOutput.writeLine('Write \'restart\' to play again.');
   }
 
   loseGame() {
     this.state = GameState.Lost;
     this.gameOver = true;
     this.inputOutput.writeLine('You have lost the game..');
-    this.inputOutput.disableInput();
+    this.inputOutput.writeLine('Write \'restart\' to play again.');
   }
 
   private static randomizeWumpusPosition(board: Room[][]) {

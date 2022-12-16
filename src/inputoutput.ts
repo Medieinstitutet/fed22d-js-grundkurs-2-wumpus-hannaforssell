@@ -26,6 +26,8 @@ class InputOutput {
 
   private static regexShoot = /^shoot|s$/i;
 
+  private static regexRestart = /^restart$/i;
+
   constructor(inputId: string, outputId: string) {
     this.input = document.querySelector(inputId) as HTMLInputElement;
     this.output = document.querySelector(outputId) as HTMLElement;
@@ -74,6 +76,10 @@ class InputOutput {
       return Action.Shoot;
     }
     return Action.Unknown;
+  }
+
+  static isRestart(restart: string): boolean {
+    return this.regexRestart.test(restart);
   }
 }
 
