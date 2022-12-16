@@ -14,6 +14,18 @@ class InputOutput {
 
   output: HTMLElement;
 
+  private static regexNorth = /^north|n$/i;
+
+  private static regexEast = /^east|e$/i;
+
+  private static regexSouth = /^south|s$/i;
+
+  private static regexWest = /^west|w$/i;
+
+  private static regexMove = /^move|m$/i;
+
+  private static regexShoot = /^shoot|s$/i;
+
   constructor(inputId: string, outputId: string) {
     this.input = document.querySelector(inputId) as HTMLInputElement;
     this.output = document.querySelector(outputId) as HTMLElement;
@@ -39,34 +51,26 @@ class InputOutput {
   }
 
   static parseDirection(direction: string): Direction {
-    const regexNorth = /^north|n$/i;
-    const regexEast = /^east|e$/i;
-    const regexSouth = /^south|s$/i;
-    const regexWest = /^west|w$/i;
-
-    if (regexNorth.test(direction)) {
+    if (this.regexNorth.test(direction)) {
       return Direction.North;
     }
-    if (regexEast.test(direction)) {
+    if (this.regexEast.test(direction)) {
       return Direction.East;
     }
-    if (regexSouth.test(direction)) {
+    if (this.regexSouth.test(direction)) {
       return Direction.South;
     }
-    if (regexWest.test(direction)) {
+    if (this.regexWest.test(direction)) {
       return Direction.West;
     }
     return Direction.Unknown;
   }
 
   static parseAction(action: string): Action {
-    const regexMove = /^move|m$/i;
-    const regexShoot = /^shoot|s$/i;
-
-    if (regexMove.test(action)) {
+    if (this.regexMove.test(action)) {
       return Action.Move;
     }
-    if (regexShoot.test(action)) {
+    if (this.regexShoot.test(action)) {
       return Action.Shoot;
     }
     return Action.Unknown;
