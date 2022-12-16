@@ -11,8 +11,6 @@
   background-color: #242424;
   font-synthesis: none;
   text-rendering: optimizelegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-size-adjust: 100%;
   box-sizing: border-box;
 }
@@ -64,8 +62,6 @@
     margin: 10px;
     background: #02402D;
     background: radial-gradient(circle farthest-corner at center center, #02402D 0%, #011710 100%);
-    border: 2px inset grey;
-    -webkit-text-stroke: 0.8px #3ab83a;
 
     .output {
       position: absolute;
@@ -77,6 +73,8 @@
       background-color: transparent;
       outline: none;
       line-height: 25px;
+      color: #f0f0f0;
+      -webkit-text-stroke: 0.5px #3ab83a;
     }
 
     .input {
@@ -94,8 +92,10 @@
     &::before {
       content: '>';
       position: absolute;
-      bottom: 3px;
+      bottom: 0;
       left: 5px;
+      font-size: a11y.rem(18px);
+      color: #3ab83a;
       animation: blinker 1s step-start infinite;
     }
   }
