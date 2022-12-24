@@ -73,6 +73,12 @@ class Renderer {
     this.renderArrows(arrowCount);
     this.renderMoves(moveCount);
   }
+
+  clear() {
+    this.boardContainer.innerHTML = '';
+    this.arrowContainer.innerHTML = '';
+    this.moveContainer.innerHTML = '';
+  }
 }
 
 // *********************************************************

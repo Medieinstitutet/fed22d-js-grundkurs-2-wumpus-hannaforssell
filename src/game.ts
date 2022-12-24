@@ -14,9 +14,9 @@ import Action from './action';
 // *********************************************************
 
 class Game {
-  width: number;
+  width = 5;
 
-  height: number;
+  height = 4;
 
   arrowCount = 5;
 
@@ -40,21 +40,30 @@ class Game {
 
   inputOutput: InputOutput;
 
-  renderer: Renderer | null;
+  useRenderer = false;
 
-  constructor(width: number, height: number, inputOutput: InputOutput, renderer: Renderer | null = null) {
-    this.width = width;
-    this.height = height;
+  renderer: Renderer;
 
+  constructor(inputOutput: InputOutput, renderer: Renderer) {
     this.inputOutput = inputOutput;
     this.renderer = renderer;
   }
 
-  start() {
+  start(width: number, height: number) {
+    this.width = width;
+    this.height = height;
     this.state = GameState.Choose;
     this.inputOutput.output.innerHTML = '';
     this.generateGameboard(this.width, this.height);
     this.randomizePlayerPosition();
+
+    this.gameOver = false;
+
+    this.arrowCount = 5;
+    this.arrowMoveCount = 0;
+    this.moveCount = 0;
+    this.arrowX = -1;
+    this.arrowY = -1;
 
     this.inputOutput.writeLine('Lets shoot Wumpus before he finds you!');
 
@@ -74,7 +83,7 @@ class Game {
   }
 
   renderAll() {
-    if (this.renderer != null) {
+    if (this.useRenderer) {
       this.renderer.renderAll(
         this.board,
         this.playerX,
@@ -84,6 +93,8 @@ class Game {
         this.arrowCount,
         this.moveCount,
       );
+    } else {
+      this.renderer.clear();
     }
   }
 
@@ -302,8 +313,22 @@ class Game {
 
     const inputText = this.inputOutput.inputLine();
 
-    if (InputOutput.isRestart(inputText)) {
-      this.start();
+    const isRestart = InputOutput.isRestart(inputText);
+
+    if (isRestart[0]) {
+      if (isRestart[1] !== 0 && isRestart[2] !== 0) {
+        if (isRestart[1] * isRestart[2] < 20) {
+          this.inputOutput.writeLine('The gameboard is too small! Choose a bigger one.');
+        } else {
+          this.start(isRestart[1], isRestart[2]);
+        }
+      } else {
+        this.start(this.width, this.height);
+      }
+    } else if (InputOutput.isCheat(inputText)) {
+      this.useRenderer = !this.useRenderer;
+      this.inputOutput.writeLine(`Cheats ${this.useRenderer ? 'activated' : 'deactivated'}`);
+      this.renderAll();
     } else if (this.state === GameState.Choose) {
       const action = InputOutput.parseAction(inputText);
 
@@ -369,6 +394,7 @@ class Game {
       `You defeated Wumpus after${this.moveCount <= 5 ? ' only' : ''} ${this.moveCount} moves!`,
     );
     this.inputOutput.writeLine('Write \'restart\' to play again.');
+    this.inputOutput.writeLine('Or write for example \'restart 10 10\' to change the board size.');
   }
 
   loseGame() {
@@ -376,6 +402,7 @@ class Game {
     this.gameOver = true;
     this.inputOutput.writeLine('You have lost the game..');
     this.inputOutput.writeLine('Write \'restart\' to play again.');
+    this.inputOutput.writeLine('Or write for example \'restart 10 10\' to change the board size.');
   }
 
   private static randomizeWumpusPosition(board: Room[][]) {

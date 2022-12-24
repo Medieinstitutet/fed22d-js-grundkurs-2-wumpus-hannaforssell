@@ -15,6 +15,6 @@ import InputOutput from './inputoutput';
 const inputOutput = new InputOutput('#input', '#output');
 const renderer = new Renderer('#boardContainer', '#arrows', '#moves');
 
-const game = new Game(5, 4, inputOutput, renderer);
+const game = new Game(inputOutput, renderer);
 
-game.start();
+game.start(5, 4);

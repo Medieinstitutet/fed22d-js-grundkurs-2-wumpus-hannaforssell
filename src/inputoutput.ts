@@ -14,19 +14,21 @@ class InputOutput {
 
   output: HTMLElement;
 
-  private static regexNorth = /^north|n$/i;
+  private static regexNorth = /^(north|n)$/i;
 
-  private static regexEast = /^east|e$/i;
+  private static regexEast = /^(east|e)$/i;
 
-  private static regexSouth = /^south|s$/i;
+  private static regexSouth = /^(south|s)$/i;
 
-  private static regexWest = /^west|w$/i;
+  private static regexWest = /^(west|w)$/i;
 
-  private static regexMove = /^move|m$/i;
+  private static regexMove = /^(move|m)$/i;
 
-  private static regexShoot = /^shoot|s$/i;
+  private static regexShoot = /^(shoot|s)$/i;
 
-  private static regexRestart = /^restart$/i;
+  private static regexRestart = /^restart ?([\d]*) ?([\d]*)$/i;
+
+  private static regexCheat = /^cheat$/i;
 
   constructor(inputId: string, outputId: string) {
     this.input = document.querySelector(inputId) as HTMLInputElement;
@@ -78,8 +80,25 @@ class InputOutput {
     return Action.Unknown;
   }
 
-  static isRestart(restart: string): boolean {
-    return this.regexRestart.test(restart);
+  static isRestart(restart: string): [boolean, number, number] {
+    const match = this.regexRestart.exec(restart);
+    console.log(match);
+    if (match === null) {
+      return [false, 0, 0];
+    }
+
+    const restartWidth = Number(match[1]);
+    const restartHeight = Number(match[2]);
+
+    if (restartWidth === 0 || restartHeight === 0) {
+      return [true, 0, 0];
+    }
+
+    return [true, restartWidth, restartHeight];
+  }
+
+  static isCheat(cheat: string): boolean {
+    return this.regexCheat.test(cheat);
   }
 }
 
