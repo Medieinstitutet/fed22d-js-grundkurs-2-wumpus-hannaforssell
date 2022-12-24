@@ -82,7 +82,7 @@ class Game {
     }
   }
 
-  renderAll() {
+  private renderAll() {
     if (this.useRenderer) {
       this.renderer.renderAll(
         this.board,
@@ -111,7 +111,7 @@ class Game {
     }
   }
 
-  move(entity: string, direction: Direction) {
+  private move(entity: string, direction: Direction) {
     let newX;
     let newY;
     if (entity === 'player' || this.arrowX === -1) {
@@ -175,7 +175,7 @@ class Game {
     this.renderAll();
   }
 
-  triggerEvents() {
+  private triggerEvents() {
     let playerPlacement = this.board[this.playerX][this.playerY];
 
     if (playerPlacement.hasWumpus) {
@@ -214,7 +214,7 @@ class Game {
     }
   }
 
-  adjacentRooms() {
+  private adjacentRooms() {
     let northY = this.playerY - 1;
     let eastX = this.playerX + 1;
     let southY = this.playerY + 1;
@@ -241,7 +241,7 @@ class Game {
     return [northRoom, eastRoom, southRoom, westRoom];
   }
 
-  initRoom() {
+  private initRoom() {
     let foundWumpus = false;
     let foundHole = false;
     let foundBat = false;
@@ -308,12 +308,8 @@ class Game {
     this.board = board;
   }
 
-  gameLoop() {
-    this.renderAll();
-
-    const inputText = this.inputOutput.inputLine();
-
-    const isRestart = InputOutput.isRestart(inputText);
+  private handleRestart(cmd: string): boolean {
+    const isRestart = InputOutput.isRestart(cmd);
 
     if (isRestart[0]) {
       if (isRestart[1] !== 0 && isRestart[2] !== 0) {
@@ -325,68 +321,104 @@ class Game {
       } else {
         this.start(this.width, this.height);
       }
-    } else if (InputOutput.isCheat(inputText)) {
+      return true;
+    }
+    return false;
+  }
+
+  private handleCheat(cmd: string): boolean {
+    if (InputOutput.isCheat(cmd)) {
       this.useRenderer = !this.useRenderer;
       this.inputOutput.writeLine(`Cheats ${this.useRenderer ? 'activated' : 'deactivated'}`);
       this.renderAll();
-    } else if (this.state === GameState.Choose) {
-      const action = InputOutput.parseAction(inputText);
+      return true;
+    }
+    return false;
+  }
 
-      if (action === Action.Move) {
-        this.state = GameState.Move;
-        this.inputOutput.writeLine('In which direction would you like to go? (N, E, S, W)');
-      } else if (action === Action.Shoot) {
-        this.state = GameState.Shoot;
-        this.inputOutput.writeLine('In which direction would you like to shoot? (N, E, S, W)');
-      } else {
-        this.inputOutput.writeLine(`Would you like to move or shoot? (M, S) [${this.arrowCount} arrows left]`);
-      }
-    } else if (this.state === GameState.Move) {
-      const direction = InputOutput.parseDirection(inputText);
+  private handleChoose(cmd: string) {
+    const action = InputOutput.parseAction(cmd);
 
-      if (direction !== Direction.Unknown) {
-        this.move('player', direction);
-        if (this.gameOver) {
-          return;
-        }
-        this.initRoom();
-
-        this.state = GameState.Choose;
-      } else {
-        this.inputOutput.writeLine('In which direction would you like to go? (N, E, S, W)');
-      }
-    } else if (this.state === GameState.Shoot) {
-      const direction = InputOutput.parseDirection(inputText);
-
-      if (direction !== Direction.Unknown) {
-        this.move('arrow', direction);
-        if (this.gameOver) {
-          return;
-        }
-        this.arrowMoveCount++;
-
-        if (this.arrowMoveCount === 3) {
-          this.state = GameState.Choose;
-          this.arrowX = -1;
-          this.arrowY = -1;
-          this.arrowMoveCount = 0;
-          this.arrowCount--;
-          this.triggerEvents();
-          this.renderAll();
-          if (this.gameOver) {
-            return;
-          }
-          this.inputOutput.writeLine(`Would you like to move or shoot? (M, S) [${this.arrowCount} arrows left]`);
-        } else {
-          this.inputOutput.writeLine('In which direction would you like to shoot? (N, E, S, W)');
-        }
-      } else {
-        this.inputOutput.writeLine('In which direction would you like to shoot? (N, E, S, W)');
-      }
+    if (action === Action.Move) {
+      this.state = GameState.Move;
+      this.inputOutput.writeLine('In which direction would you like to go? (N, E, S, W)');
+    } else if (action === Action.Shoot) {
+      this.state = GameState.Shoot;
+      this.inputOutput.writeLine('In which direction would you like to shoot? (N, E, S, W)');
+    } else {
+      this.inputOutput.writeLine(`Would you like to move or shoot? (M, S) [${this.arrowCount} arrows left]`);
     }
   }
 
-  winGame() {
+  private handleMove(cmd: string) {
+    const direction = InputOutput.parseDirection(cmd);
+
+    if (direction !== Direction.Unknown) {
+      this.move('player', direction);
+      if (this.gameOver) {
+        return;
+      }
+      this.initRoom();
+
+      this.state = GameState.Choose;
+    } else {
+      this.inputOutput.writeLine('In which direction would you like to go? (N, E, S, W)');
+    }
+  }
+
+  private handleShoot(cmd: string) {
+    const direction = InputOutput.parseDirection(cmd);
+
+    if (direction !== Direction.Unknown) {
+      this.move('arrow', direction);
+      if (this.gameOver) {
+        return;
+      }
+      this.arrowMoveCount++;
+
+      if (this.arrowMoveCount === 3) {
+        this.state = GameState.Choose;
+        this.arrowX = -1;
+        this.arrowY = -1;
+        this.arrowMoveCount = 0;
+        this.arrowCount--;
+        this.triggerEvents();
+        this.renderAll();
+        if (this.gameOver) {
+          return;
+        }
+        this.inputOutput.writeLine(`Would you like to move or shoot? (M, S) [${this.arrowCount} arrows left]`);
+      } else {
+        this.inputOutput.writeLine('In which direction would you like to shoot? (N, E, S, W)');
+      }
+    } else {
+      this.inputOutput.writeLine('In which direction would you like to shoot? (N, E, S, W)');
+    }
+  }
+
+  private gameLoop() {
+    this.renderAll();
+
+    const inputText = this.inputOutput.inputLine();
+
+    if (this.handleRestart(inputText)) {
+      return;
+    }
+
+    if (this.handleCheat(inputText)) {
+      return;
+    }
+
+    if (this.state === GameState.Choose) {
+      this.handleChoose(inputText);
+    } else if (this.state === GameState.Move) {
+      this.handleMove(inputText);
+    } else if (this.state === GameState.Shoot) {
+      this.handleShoot(inputText);
+    }
+  }
+
+  private winGame() {
     this.state = GameState.Won;
     this.gameOver = true;
     this.inputOutput.writeLine('You have won!');
@@ -397,7 +429,7 @@ class Game {
     this.inputOutput.writeLine('Or write for example \'restart 10 10\' to change the board size.');
   }
 
-  loseGame() {
+  private loseGame() {
     this.state = GameState.Lost;
     this.gameOver = true;
     this.inputOutput.writeLine('You have lost the game..');

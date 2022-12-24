@@ -82,7 +82,6 @@ class InputOutput {
 
   static isRestart(restart: string): [boolean, number, number] {
     const match = this.regexRestart.exec(restart);
-    console.log(match);
     if (match === null) {
       return [false, 0, 0];
     }
