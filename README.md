@@ -5,8 +5,8 @@
 1. Description
 2. Technologies used
 3. Screenshots
-4. Validation
-5. Lighthouse
+4. Lighthouse
+5. Validation
 
 #### Description:
 I have created my own version of the text based adventure game: [Hunt The Wumpus](https://en.wikipedia.org/wiki/Hunt_the_Wumpus).
@@ -23,14 +23,11 @@ I have also added three new commands:
 * ESLint, Stylelint
 
 #### Screenshots
-<img src="" width="800">
-<img src="" width="300">
-
-#### Validation
-<img src="">
-<img src="">
+<img src="validation/screenshot_desktop.png">
 
 #### Lighthouse
-<img src="">
-<img src="">
+<img src="validation/validation_lighthouse.png">
 
+#### Validation
+<img src="validation/validation_html.png">
+<img src="validation/validation_css.png">
