@@ -1,22 +1,51 @@
 <!DOCTYPE html>
-<html lang="en"> <!-- TODO: glöm ej att byta språk här -->
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/ico" href="/favicon.ico" />
+    <link rel="icon" type="image/ico" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Projekt</title>
+    <title>Wumpus</title>
+
+    <meta property="og:title" content="Wumpus">
+    <meta name="description" content="Wumpus: a text based adventure game">
+    <meta name="keywords" content="HTML, CSS, JavaScript, Game">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://medieinstitutet.github.io/fed22d-js-grundkurs-2-wumpus-hannaforssell/">
+    <meta property="og:image" content="https://github.com/Medieinstitutet/fed22d-js-grundkurs-2-wumpus-hannaforssell/blob/main/public/opengraph_image_wumpus.gif?raw=true">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
+    <link rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');" href="https://fonts.googleapis.com/css2?family=VT323&display=swap">
   </head>
   <body>
-    <main>
-      <div class="app" id="app"></div> <!-- TODO: går bra att radera -->
-      <!-- TODO: skriv din kod här, innan script-taggen -->
-    </main>
 
-    <!-- TODO
-    - Validera HTML (kopiera den renderade HTML-koden): https://validator.w3.org/#validate_by_input
-    - Kontrollera tillgänglighet: https://www.a11yproject.com/checklist/ & Chrome Lighthouse/Firefox Accessibility Tools
-    - Validera genererade CSS: https://jigsaw.w3.org/css-validator/#validate_by_input
-    -->
+    <header class="intro">
+      <h1>Hunt the Wumpus</h1>
+      <span>A text based adventure game. Play if you dare.</span>
+    </header>
+
+    <main>
+
+      <div class="player-info">
+        <p id="arrows"></p>
+        <p id="moves"></p>
+      </div>
+
+      <div class="board-parent">
+        <div>
+          <table id="boardContainer" class="board-container"></table>
+        </div>        
+      </div>
+
+      <div class="terminal-parent">
+        <div class="terminal">
+          <textarea id="output" class="output" readonly aria-label="output">
+          </textarea>
+          <input type="text" id="input" class="input" aria-label="input">
+        </div>
+      </div>
+
+    </main>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

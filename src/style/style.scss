@@ -1,64 +1,129 @@
-@use "utils/a11y"; // Om det inte funkar, byt @use mot @import
-@use "vendor/reset";
+@use 'utils/a11y';
+@use 'vendor/reset';
 
 :root {
-  // TODO: Går bra att radera kod även här!
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: rem(16px);
+  font-family: 'VT323', monospace;
+  font-size: a11y.rem(25px);
   line-height: 24px;
   font-weight: 400;
   color-scheme: light dark;
-  color: rgb(255 255 255 / 87%);
+  color: #f0f0f0;
   background-color: #242424;
   font-synthesis: none;
   text-rendering: optimizelegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-size-adjust: 100%;
+  box-sizing: border-box;
+  margin: 10px;
 }
 
-// TODO: Radera mig! Jag är bara ett exempel.
-main {
-  padding: 20px;
-}
+// *********************************************************
+// ----------------------- Intro -----------------------
+// *********************************************************
 
-.app {
-  margin-block: 20px;
+.intro {
   display: flex;
-  gap: 20px;
-  justify-content: space-around;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 50px;
 
-  .card {
-    $card-size: 250px;
+  h1 {
+    font-size: a11y.rem(40px);
+    text-transform: uppercase;
+    text-shadow: 2px 2px 0 #3ab83a, 4px 4px 0 #000;
+  }
+}
 
-    width: 0.6413 * $card-size;
-    height: $card-size;
-    cursor: pointer;
-    background: #102a3f;
-    border-radius: 8px;
-    display: flex;
-    font-weight: bold;
-    align-items: center;
-    justify-content: space-around;
-    text-align: center;
-    box-shadow: 5px 5px 5px rgb(0 0 0 / 20%);
+// *********************************************************
+// ----------------------- Debugging -----------------------
+// *********************************************************
 
-    .front {
-      font-size: rem(50px);
-    }
+.player-info {
+  text-align: center;
+  margin-top: 20px;
+}
 
-    .back {
-      display: none;
-    }
+.board-parent {
+  text-align: center;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
 
-    &.visible {
-      .front {
-        display: none;
+  div {
+    max-height: 75vh;
+    overflow-x: auto;
+    position: relative;
+
+    .board-container {
+      margin-top: 20px;
+      margin-bottom: 20px;
+
+      .board-square {
+        border: 1px solid lightgray;
+        padding: 20px;
       }
-
-      .back {
-        display: block;
-      }
     }
+  }
+}
+
+// *********************************************************
+// ------------------------ Terminal -----------------------
+// *********************************************************
+
+.terminal-parent {
+  display: flex;
+  justify-content: center;
+
+  .terminal {
+    position: relative;
+    width: 700px;
+    height: 400px;
+    background: #02402D;
+    background: radial-gradient(circle farthest-corner at center center, #02402D 0%, #011710 100%);
+
+    .output {
+      position: absolute;
+      top: -1px;
+      width: 100%;
+      height: 90%;
+      padding-left: 5px;
+      resize: none;
+      background-color: transparent;
+      outline: none;
+      line-height: 25px;
+      color: #f0f0f0;
+      -webkit-text-stroke: 0.5px #3ab83a;
+    }
+
+    .input {
+      background-color: transparent;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 10%;
+      padding-left: 20px;
+      color: #dd841e;
+      -webkit-text-stroke: 0.8px #dd4242;
+    }
+
+    &::before {
+      content: '>';
+      position: absolute;
+      bottom: 0;
+      left: 5px;
+      font-size: a11y.rem(18px);
+      color: #3ab83a;
+      animation: blinker 1s step-start infinite;
+    }
+  }
+}
+
+// *********************************************************
+// ---------------------- Animations -----------------------
+// *********************************************************
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
   }
 }

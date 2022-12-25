@@ -28,9 +28,14 @@ module.exports = {
     'max-len': ['error', { code: 120 }],
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
+    'no-plusplus': ['off', { allowForLoopAfterthoughts: true }],
     'no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'no-unreachable': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'no-undef': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+    "linebreak-style": ["error", process.env.NODE_ENV === 'prod' ? "unix" : "windows"],
+    "lines-between-class-members": "off",
+    "@typescript-eslint/lines-between-class-members": ["error", "always", { "exceptAfterOverload": true }],
+    "no-constant-condition": ["error", { "checkLoops": false }],
+    "no-restricted-syntax": ["off"]
   }
 }
