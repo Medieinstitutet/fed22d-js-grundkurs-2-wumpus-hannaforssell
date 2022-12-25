@@ -16,6 +16,10 @@
   margin: 10px;
 }
 
+.hidden {
+  display: none;
+}
+
 // *********************************************************
 // ----------------------- Intro -----------------------
 // *********************************************************
@@ -50,7 +54,7 @@
 
   div {
     max-height: 75vh;
-    overflow-x: scroll;
+    overflow-x: auto;
     position: relative;
 
     .board-container {
