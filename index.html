@@ -27,28 +27,22 @@
     <main>
 
       <div class="player-info">
-        <article>
-          <span id="arrows"></span>
-        </article>
-        <article>
-          <span id="moves"></span>
-        </article>
+        <p id="arrows"></p>
+        <p id="moves"></p>
       </div>
 
-      <section class="board-section">
+      <div class="board-parent">
         <div>
           <table id="boardContainer" class="board-container"></table>
         </div>        
-      </section>
+      </div>
 
-      <section class="terminal-parent">
+      <div class="terminal-parent">
         <div class="terminal">
-          <label>
-            <textarea id="output" class="output" readonly></textarea>
-            <input type="text" id="input" class="input">
-          </label>
+          <textarea id="output" class="output" readonly></textarea>
+          <input type="text" id="input" class="input">
         </div>
-      </section>
+      </div>
 
     </main>
     <script type="module" src="/src/main.ts"></script>
