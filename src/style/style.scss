@@ -13,6 +13,7 @@
   text-rendering: optimizelegibility;
   text-size-adjust: 100%;
   box-sizing: border-box;
+  margin: 10px;
 }
 
 // *********************************************************
@@ -36,14 +37,31 @@
 // ----------------------- Debugging -----------------------
 // *********************************************************
 
-.board-container {
+.player-info {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.board-section {
+  text-align: center;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
-  margin-top: 20px;
 
-  .board-square {
-    border: 1px solid lightgray;
-    padding: 20px;
+  div {
+    max-height: 75vh;
+    overflow-x: scroll;
+    position: relative;
+
+    .board-container {
+      margin-top: 20px;
+      margin-bottom: 20px;
+
+      .board-square {
+        border: 1px solid lightgray;
+        padding: 20px;
+      }
+    }
   }
 }
 
@@ -59,7 +77,6 @@
     position: relative;
     width: 700px;
     height: 400px;
-    margin: 10px;
     background: #02402D;
     background: radial-gradient(circle farthest-corner at center center, #02402D 0%, #011710 100%);
 
