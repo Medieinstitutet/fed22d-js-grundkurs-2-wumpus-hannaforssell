@@ -399,22 +399,26 @@ class Game {
   private gameLoop() {
     this.renderAll();
 
-    const inputText = this.inputOutput.inputLine();
+    const cmd = this.inputOutput.inputLine();
 
-    if (this.handleRestart(inputText)) {
+    if (cmd === '') {
       return;
     }
 
-    if (this.handleCheat(inputText)) {
+    if (this.handleRestart(cmd)) {
+      return;
+    }
+
+    if (this.handleCheat(cmd)) {
       return;
     }
 
     if (this.state === GameState.Choose) {
-      this.handleChoose(inputText);
+      this.handleChoose(cmd);
     } else if (this.state === GameState.Move) {
-      this.handleMove(inputText);
+      this.handleMove(cmd);
     } else if (this.state === GameState.Shoot) {
-      this.handleShoot(inputText);
+      this.handleShoot(cmd);
     }
   }
 

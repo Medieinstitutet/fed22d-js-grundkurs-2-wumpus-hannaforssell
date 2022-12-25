@@ -43,6 +43,10 @@ class InputOutput {
   inputLine(): string {
     const inputText = this.input.value;
 
+    if (inputText === '') {
+      return '';
+    }
+
     this.writeLine(`> ${inputText}`);
 
     this.input.value = '';
