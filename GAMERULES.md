@@ -13,4 +13,4 @@ There will only be one danger per room.
 
 Remember in which direction you shoot. If you choose the direction you came from you might shoot yourself.
 
-<img src="public/screenshot_website_wumpus.jpg">
+<img src="validation/screenshot_desktop.png ">
